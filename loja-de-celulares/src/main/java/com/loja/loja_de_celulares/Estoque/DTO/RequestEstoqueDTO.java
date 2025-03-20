@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 //Contém as informações que serão enviadas pelo usuário
 public record RequestEstoqueDTO(
 
+        String codigo_produto,
+
         @NotBlank(message = "O nome do produto não pode estar vazio.")
         String nome_produto,
 
