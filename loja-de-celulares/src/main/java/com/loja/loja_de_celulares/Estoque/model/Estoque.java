@@ -1,6 +1,6 @@
 package com.loja.loja_de_celulares.Estoque.model;
 
-import com.loja.loja_de_celulares.Estoque.controller.DTO.RequestEstoque;
+import com.loja.loja_de_celulares.Estoque.DTO.RequestEstoqueDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "codigo_produto")
+//Define os dados e os relaciona ao banco
 public class Estoque {
 
     @Id
@@ -20,9 +21,9 @@ public class Estoque {
     private Integer preco_em_centavos;
     private Boolean ativo;
 
-    public Estoque(RequestEstoque requestEstoque) {
-        this.nome_produto = requestEstoque.nome_produto();
-        this.preco_em_centavos = requestEstoque.preco_em_centavos();
+    public Estoque(RequestEstoqueDTO requestEstoqueDTO) {
+        this.nome_produto = requestEstoqueDTO.nome_produto();
+        this.preco_em_centavos = requestEstoqueDTO.preco_em_centavos();
         this.ativo = true;
     }
 }
