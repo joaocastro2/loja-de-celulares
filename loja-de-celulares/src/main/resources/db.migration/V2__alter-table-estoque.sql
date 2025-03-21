@@ -1,0 +1,2 @@
+ALTER TABLE estoque
+ADD COLUMN quantidade INT DEFAULT 0;
