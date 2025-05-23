@@ -109,7 +109,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>br.com.phone.store.LojaDeCelularesApplication</mainClass> <!-- Classe principal -->
+					<mainClass>br.com.phone.store.PhoneStoreApplication</mainClass> <!-- Classe principal -->
 					<options>
 						<option>--module-path</option>
 						<option>/caminho/para/javafx-sdk/lib</option> <!-- Substitua pelo caminho correto -->
