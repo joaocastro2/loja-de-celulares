@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.loja</groupId>
-	<artifactId>loja-de-celulares</artifactId>
+	<artifactId>phone-store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>loja-de-celulares</name>
 	<description>Aplicação para uma loja de celulares</description>
@@ -109,7 +109,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.loja.loja_de_celulares.LojaDeCelularesApplication</mainClass> <!-- Classe principal -->
+					<mainClass>br.com.phone.store.LojaDeCelularesApplication</mainClass> <!-- Classe principal -->
 					<options>
 						<option>--module-path</option>
 						<option>/caminho/para/javafx-sdk/lib</option> <!-- Substitua pelo caminho correto -->
