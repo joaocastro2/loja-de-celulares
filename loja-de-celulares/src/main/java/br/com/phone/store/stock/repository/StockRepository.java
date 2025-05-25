@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-/*Herda uma série de métodos prontos que facilitam a interação com o banco de dados, como operações de CRUD (Create, Read, Update, Delete).
-A regra definida neste negócio é Usá-la para funções personalizadas, como buscas, por exemplo, e implementá-las na controller */
+/*Inherits a series of ready-made methods that facilitate interaction with the database, such as CRUD operations (Create, Read, Update, Delete).
+The rule defined in this business is to use it for custom functions, such as searches, for example, and implement them in the controller */
 
 public interface StockRepository extends JpaRepository<StockModel, String> {
-    List<StockModel> findAllByAtivoTrue();
+    List<StockModel> findAllByActiveTrue();
 }

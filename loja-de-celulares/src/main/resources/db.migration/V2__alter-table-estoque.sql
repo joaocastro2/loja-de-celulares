@@ -1,2 +1,2 @@
-ALTER TABLE estoque
-ADD COLUMN quantidade INT DEFAULT 0;
+ALTER TABLE stock
+ADD COLUMN amount INT DEFAULT 0;

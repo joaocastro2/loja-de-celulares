@@ -6,13 +6,13 @@ import jakarta.validation.constraints.NotNull;
 //Contém as informações que serão enviadas pelo usuário
 public record RequestStockDto(
 
-        String codigo_produto,
+        String product_id,
 
         @NotBlank(message = "O nome do produto não pode estar vazio.")
-        String nome_produto,
+        String product_name,
 
         @NotNull(message = "O preço em centavos é obrigatório.")
-        Integer preco_em_centavos,
+        Integer price_in_cents,
 
-        Boolean ativo){
+        Boolean active){
 }

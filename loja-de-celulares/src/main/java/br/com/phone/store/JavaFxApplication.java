@@ -16,13 +16,14 @@ public class JavaFxApplication extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Carrega o FXML e usa o Spring para injetar os controladores
+
+        // Load the FXML and use Spring to inject the controllers
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login/Login-Screen.fxml"));
         loader.setControllerFactory(springContext::getBean); // Injeção de dependências do Spring
         Parent root = loader.load();
 
-        // Configuração da janela
-        primaryStage.setTitle("Loja de Celulares - Login");
+        // Window configuration
+        primaryStage.setTitle("phone-store - Login");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

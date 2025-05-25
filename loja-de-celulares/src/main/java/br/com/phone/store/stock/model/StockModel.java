@@ -4,27 +4,27 @@ import br.com.phone.store.stock.dto.RequestStockDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name="estoque")
-@Entity(name="estoque")
+@Table(name="stock")
+@Entity(name="stock")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "codigo_produto")
+@EqualsAndHashCode(of = "product_id")
 //Define os dados e os relaciona ao banco
 public class StockModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String codigo_produto;
-    private String nome_produto;
-    private Integer preco_em_centavos;
-    private Boolean ativo;
+    private String product_id;
+    private String product_name;
+    private Integer price_in_cents;
+    private Boolean active;
 
     public StockModel(RequestStockDto requestStockDto) {
-        this.nome_produto = requestStockDto.nome_produto();
-        this.preco_em_centavos = requestStockDto.preco_em_centavos();
-        this.ativo = true;
+        this.product_id = requestStockDto.product_name();
+        this.price_in_cents = requestStockDto.price_in_cents();
+        this.active = true;
     }
 }
 

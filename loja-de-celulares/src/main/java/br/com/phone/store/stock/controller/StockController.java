@@ -10,23 +10,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/estoque")
+@RequestMapping("/stock")
 public class StockController {
 
     @Autowired
     private StockRepository stockRepository;
 
     @PostMapping
-    public ResponseEntity cadastroEstoque(@RequestBody @Valid RequestStockDto novoProduto){
-        StockModel stockModel = new StockModel(novoProduto);
+    public ResponseEntity registerStock(@RequestBody @Valid RequestStockDto newProduct){
+        StockModel stockModel = new StockModel(newProduct);
         stockRepository.save(stockModel);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity consultaEStoque(){
-        var consultaEstoque = stockRepository.findAllByAtivoTrue();
-        return ResponseEntity.ok(consultaEstoque);
+    public ResponseEntity stockQuery(){
+        var stockQuery = stockRepository.findAllByActiveTrue();
+        return ResponseEntity.ok(stockQuery);
     }
 
 

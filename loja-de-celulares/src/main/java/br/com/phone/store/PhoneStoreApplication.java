@@ -8,13 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PhoneStoreApplication {
 
 	public static void main(String[] args) {
-		// Inicia o contexto do Spring
+		// Start the Spring context
 		var context = SpringApplication.run(PhoneStoreApplication.class, args);
 
-		// Passa o contexto para o JavaFX
+		// Pass the content to JavaFX
 		JavaFxApplication.setSpringContext(context);
 
-		// Inicia a aplicação JavaFX
+		// Start the JavaFX apllication
 		Application.launch(JavaFxApplication.class, args);
 	}
 }
