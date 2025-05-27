@@ -3,7 +3,7 @@ package br.com.phone.store.stock.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-//Contém as informações que serão enviadas pelo usuário
+//Contains the information that will be sent by the user
 public record RequestStockDto(
 
         String product_id,

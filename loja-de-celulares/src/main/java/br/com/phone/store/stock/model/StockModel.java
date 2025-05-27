@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "product_id")
-//Define os dados e os relaciona ao banco
+//Defines the data and relates it to the database
 public class StockModel {
 
     @Id
