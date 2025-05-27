@@ -10,4 +10,7 @@ The rule defined in this business is to use it for custom functions, such as sea
 
 public interface StockRepository extends JpaRepository<StockModel, String> {
     List<StockModel> findAllByActiveTrue();
+
+    List<StockModel> findProductByNameIgnoreCase(String product_name);
+    List<StockModel> findProductByNameContainingIgnoreCase(String product_name);
 }
