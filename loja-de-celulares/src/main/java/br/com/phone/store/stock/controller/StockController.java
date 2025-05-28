@@ -34,13 +34,13 @@ public class StockController {
         return ResponseEntity.ok(stockQuery);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<List<StockModel>> findProductByName(@PathVariable String product_name) {
+    @GetMapping("/{product_name}")
+    public ResponseEntity<List<StockModel>> findByProductName(@PathVariable String product_name) {
         // Find by product name
-        List<StockModel> exactProduct = stockRepository.findProductByNameIgnoreCase(product_name);
+        List<StockModel> exactProduct = stockRepository.findByProductNameIgnoreCase(product_name);
 
         // Search for similar names
-        List<StockModel> similarProduct = stockRepository.findProductByNameContainingIgnoreCase(product_name);
+        List<StockModel> similarProduct = stockRepository.findByProductNameContainingIgnoreCase(product_name);
 
         // Avoid duplicates
         Set<StockModel> finalResult = new LinkedHashSet<>();

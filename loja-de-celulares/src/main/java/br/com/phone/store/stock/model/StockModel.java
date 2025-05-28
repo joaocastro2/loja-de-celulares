@@ -10,19 +10,21 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "product_id")
+@EqualsAndHashCode(of = "productId")
 //Defines the data and relates it to the database
 public class StockModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String product_id;
-    private String product_name;
+    @Column(name = "product_id")
+    private String productId;
+    @Column(name = "product_name")
+    private String productName;
     private Integer price_in_cents;
     private Boolean active;
 
     public StockModel(RequestStockDto requestStockDto) {
-        this.product_id = requestStockDto.product_name();
+        this.productId = requestStockDto.product_name();
         this.price_in_cents = requestStockDto.price_in_cents();
         this.active = true;
     }
