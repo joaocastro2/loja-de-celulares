@@ -1,2 +1,0 @@
-ALTER TABLE stock
-ADD COLUMN amount INT DEFAULT 0;
