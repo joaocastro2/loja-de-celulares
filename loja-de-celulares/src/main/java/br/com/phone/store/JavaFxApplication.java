@@ -23,7 +23,7 @@ public class JavaFxApplication extends javafx.application.Application {
         Parent root = loader.load();
 
         // Window configuration
-        primaryStage.setTitle("phone-store - Login");
+        primaryStage.setTitle("phonestore - Login");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
