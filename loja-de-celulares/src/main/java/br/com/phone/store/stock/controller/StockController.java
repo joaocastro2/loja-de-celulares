@@ -28,6 +28,20 @@ public class StockController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{product_id}")
+    public ResponseEntity<List<StockModel>>findById(@PathVariable String productId) {
+
+        List<StockModel> productById = stockRepository.findByProductId(productId);
+        Set<StockModel> finalResult = new LinkedHashSet<>();
+        finalResult.addAll(productById);
+
+        if (finalResult.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new ArrayList<>(finalResult));
+    }
+
     @GetMapping
     public ResponseEntity productQuery(){
         var stockQuery = stockRepository.findAllByActiveTrue();

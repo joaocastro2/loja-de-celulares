@@ -9,6 +9,8 @@ import java.util.List;
 The rule defined in this business is to use it for custom functions, such as searches, for example, and implement them in the controller */
 
 public interface StockRepository extends JpaRepository<StockModel, String> {
+    List<StockModel> findByProductId(String productId);
+
     List<StockModel> findAllByActiveTrue();
 
     List<StockModel> findByProductNameIgnoreCase(String product_name);
