@@ -1,8 +1,11 @@
 package br.com.phone.store.stock.model;
 
 import br.com.phone.store.stock.dto.RequestStockDto;
+import br.com.phone.store.suppliers.model.SuppliersModel;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.UUID;
 
 @Table(name="stock")
 @Entity(name="stock")
@@ -21,12 +24,24 @@ public class StockModel {
     @Column(name = "product_name")
     private String productName;
     private Integer price_in_cents;
+    @ManyToOne
+    @JoinColumn(name = "fk_supplier_id") // nome da coluna estrangeira no banco
+    private SuppliersModel supplierId;
     private Boolean active;
 
     public StockModel(RequestStockDto requestStockDto) {
-        this.productId = requestStockDto.product_name();
+        this.productName = requestStockDto.product_name();
         this.price_in_cents = requestStockDto.price_in_cents();
         this.active = true;
     }
+
+    public StockModel(RequestStockDto dto, SuppliersModel supplier) {
+        this.productId = UUID.randomUUID().toString(); // Gera um novo ID do produto
+        this.productName = dto.product_name();
+        this.price_in_cents = dto.price_in_cents();
+        this.active = dto.active();
+        this.supplierId = supplier;
+    }
+
 }
 
