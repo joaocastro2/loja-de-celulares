@@ -24,6 +24,7 @@ public class StockModel {
     @Column(name = "product_name")
     private String productName;
     private Integer price_in_cents;
+    private Integer amount;
     @ManyToOne
     @JoinColumn(name = "fk_supplier_id") // nome da coluna estrangeira no banco
     private SuppliersModel supplierId;
@@ -32,16 +33,16 @@ public class StockModel {
     public StockModel(RequestStockDto requestStockDto) {
         this.productName = requestStockDto.product_name();
         this.price_in_cents = requestStockDto.price_in_cents();
+        this.amount = requestStockDto.amount();
         this.active = true;
     }
 
     public StockModel(RequestStockDto dto, SuppliersModel supplier) {
-        this.productId = UUID.randomUUID().toString(); // Gera um novo ID do produto
         this.productName = dto.product_name();
         this.price_in_cents = dto.price_in_cents();
-        this.active = dto.active();
         this.supplierId = supplier;
     }
+
 
 }
 

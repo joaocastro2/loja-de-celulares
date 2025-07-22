@@ -25,14 +25,12 @@ public class StockController {
     @PostMapping
     public ResponseEntity<?> registerProduct(@RequestBody @Valid RequestStockDto newProduct) {
         try {
-            // Valida o UUID do fornecedor
             UUID supplierUUID = UUID.fromString(newProduct.supplier_id());
 
-            // Busca o fornecedor no banco
-            SuppliersModel supplier = supplierRepository.findBySupplierId(supplierUUID)
+            SuppliersModel supplier = supplierRepository
+                    .findById(String.valueOf(supplierUUID))
                     .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 
-            // Cria o produto com o fornecedor
             StockModel stockModel = new StockModel(newProduct, supplier);
             stockRepository.save(stockModel);
 
