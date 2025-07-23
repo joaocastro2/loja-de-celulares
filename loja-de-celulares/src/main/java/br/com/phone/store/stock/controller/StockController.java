@@ -1,6 +1,5 @@
 package br.com.phone.store.stock.controller;
 
-
 import br.com.phone.store.stock.dto.RequestStockDto;
 import br.com.phone.store.stock.model.StockModel;
 import br.com.phone.store.stock.repository.StockRepository;
@@ -19,21 +18,16 @@ public class StockController {
 
     @Autowired
     private StockRepository stockRepository;
+
     @Autowired
     private SuppliersRepository supplierRepository;
 
     @PostMapping
     public ResponseEntity<?> registerProduct(@RequestBody @Valid RequestStockDto newProduct) {
         try {
-            UUID supplierUUID = UUID.fromString(newProduct.supplier_id());
-
-            SuppliersModel supplier = supplierRepository
-                    .findById(String.valueOf(supplierUUID))
-                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
-
+            SuppliersModel supplier = getSupplierOrThrow(newProduct.supplier_id());
             StockModel stockModel = new StockModel(newProduct, supplier);
             stockRepository.save(stockModel);
-
             return ResponseEntity.ok(stockModel);
 
         } catch (IllegalArgumentException e) {
@@ -43,43 +37,37 @@ public class StockController {
         }
     }
 
-    @GetMapping("/{product_id}")
-    public ResponseEntity<List<StockModel>>findById(@PathVariable String productId) {
-
-        List<StockModel> productById = stockRepository.findByProductId(productId);
-        Set<StockModel> finalResult = new LinkedHashSet<>();
-        finalResult.addAll(productById);
-
-        if (finalResult.isEmpty()) {
+    @GetMapping("/id/{product_id}")
+    public ResponseEntity<List<StockModel>> findById(@PathVariable String product_id) {
+        List<StockModel> productById = stockRepository.findByProductNameIgnoreCase(product_id);
+        if (productById.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(new ArrayList<>(finalResult));
+        return ResponseEntity.ok(productById);
     }
 
     @GetMapping
-    public ResponseEntity productQuery(){
-        var stockQuery = stockRepository.findAllByActiveTrue();
+    public ResponseEntity<List<StockModel>> listAllActive() {
+        List<StockModel> stockQuery = stockRepository.findAllByActiveTrue();
         return ResponseEntity.ok(stockQuery);
     }
 
-    @GetMapping("/{product_name}")
+    @GetMapping("/name/{product_name}")
     public ResponseEntity<List<StockModel>> findByProductName(@PathVariable String product_name) {
-        // Find by product name
-        List<StockModel> exactProduct = stockRepository.findByProductNameIgnoreCase(product_name);
-
-        // Search for similar names
-        List<StockModel> similarProduct = stockRepository.findByProductNameContainingIgnoreCase(product_name);
-
-        // Avoid duplicates
         Set<StockModel> finalResult = new LinkedHashSet<>();
-        finalResult.addAll(exactProduct);
-        finalResult.addAll(similarProduct);
+        finalResult.addAll(stockRepository.findByProductNameIgnoreCase(product_name));
+        finalResult.addAll(stockRepository.findByProductNameContainingIgnoreCase(product_name));
 
         if (finalResult.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(new ArrayList<>(finalResult));
+    }
+
+    private SuppliersModel getSupplierOrThrow(String supplierId) {
+        UUID uuid = UUID.fromString(supplierId);
+        return supplierRepository.findById(String.valueOf(uuid))
+                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
     }
 }

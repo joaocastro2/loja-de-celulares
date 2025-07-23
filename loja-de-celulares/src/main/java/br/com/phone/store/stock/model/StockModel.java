@@ -30,19 +30,12 @@ public class StockModel {
     private SuppliersModel supplierId;
     private Boolean active;
 
-    public StockModel(RequestStockDto requestStockDto) {
-        this.productName = requestStockDto.product_name();
-        this.price_in_cents = requestStockDto.price_in_cents();
-        this.amount = requestStockDto.amount();
-        this.active = true;
-    }
-
     public StockModel(RequestStockDto dto, SuppliersModel supplier) {
         this.productName = dto.product_name();
         this.price_in_cents = dto.price_in_cents();
+        this.amount = dto.amount() != null ? dto.amount() : 0;         // Valor padrão 0
+        this.active = dto.active() != null ? dto.active() : true;      // Valor padrão true
         this.supplierId = supplier;
     }
-
-
 }
 

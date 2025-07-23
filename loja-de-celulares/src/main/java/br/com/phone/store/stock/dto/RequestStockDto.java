@@ -1,5 +1,6 @@
 package br.com.phone.store.stock.dto;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,11 +15,10 @@ public record RequestStockDto(
         @NotNull(message = "O preço em centavos é obrigatório.")
         Integer price_in_cents,
 
-        @NotNull(message = "A quantidade não pode ser igual a 0")
         Integer amount,
 
         @NotBlank(message = "O ID do fornecedor é obrigatório.")
         String supplier_id,
 
-        Boolean active){
-}
+        Boolean active
+) {}
