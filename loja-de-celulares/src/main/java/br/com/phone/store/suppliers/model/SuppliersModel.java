@@ -1,5 +1,6 @@
 package br.com.phone.store.suppliers.model;
 
+import br.com.phone.store.suppliers.dto.RequestSuppliersDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,18 +12,26 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "supplier_id")
+@EqualsAndHashCode(of = "supplierId")
 public class SuppliersModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "supplier_id")
-    private String supplierId;
-    @Column(name = "supplier_name")
-    private String supplierName;
-    @Column(name = "supplier_ein")
-    private String supplierEIN;
-    private Boolean active;
-}
+    private UUID supplierId;
 
-//teste
+    @Column(name = "supplier_name", nullable = false)
+    private String supplierName;
+
+    @Column(name = "supplier_ein", nullable = false)
+    private String supplierEIN;
+
+    @Column(nullable = false)
+    private Boolean active;
+
+    public SuppliersModel(RequestSuppliersDto dto) {
+        this.supplierName = dto.supplierName();
+        this.supplierEIN = dto.supplierEIN();
+        this.active = dto.active() != null ? dto.active() : true; // default = true
+    }
+}

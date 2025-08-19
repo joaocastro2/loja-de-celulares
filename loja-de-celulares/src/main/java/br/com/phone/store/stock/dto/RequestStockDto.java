@@ -20,5 +20,6 @@ public record RequestStockDto(
         @NotBlank(message = "O ID do fornecedor é obrigatório.")
         String supplier_id,
 
-        Boolean active
-) {}
+        Boolean active){
+
+}

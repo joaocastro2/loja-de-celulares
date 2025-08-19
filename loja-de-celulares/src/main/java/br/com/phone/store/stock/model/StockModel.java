@@ -33,8 +33,8 @@ public class StockModel {
     public StockModel(RequestStockDto dto, SuppliersModel supplier) {
         this.productName = dto.product_name();
         this.price_in_cents = dto.price_in_cents();
-        this.amount = dto.amount() != null ? dto.amount() : 0;         // Valor padrão 0
-        this.active = dto.active() != null ? dto.active() : true;      // Valor padrão true
+        this.amount = dto.amount() != null ? dto.amount() : 0;
+        this.active = dto.active() != null ? dto.active() : true;
         this.supplierId = supplier;
     }
 }
