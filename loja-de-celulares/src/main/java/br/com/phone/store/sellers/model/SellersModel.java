@@ -15,7 +15,8 @@ import lombok.*;
 public class SellersModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seller_seq")
+    @SequenceGenerator(name = "seller_seq", sequenceName = "sellers_seq", allocationSize = 1)
     @Column(name = "seller_id")
     private Integer sellerId;
 
