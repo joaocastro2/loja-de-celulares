@@ -3,7 +3,6 @@ package br.com.phone.store.suppliers.model;
 import br.com.phone.store.suppliers.dto.RequestSuppliersDto;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.UUID;
 
 @Table(name="suppliers")
@@ -26,7 +25,6 @@ public class SuppliersModel {
     @Column(name = "supplier_ein", nullable = false)
     private String supplierEIN;
 
-    @Column(nullable = false)
     private Boolean active;
 
     public SuppliersModel(RequestSuppliersDto dto) {

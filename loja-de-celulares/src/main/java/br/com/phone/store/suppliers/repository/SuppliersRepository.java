@@ -8,5 +8,4 @@ import java.util.List;
 
 /* Inherits CRUD operations via JpaRepository and allows creation of custom queries.
 Use it to handle business logic related to supplier retrieval and persistence. */
-public interface SuppliersRepository extends JpaRepository<SuppliersModel, String> {
-}
+public interface SuppliersRepository extends JpaRepository<SuppliersModel, String> {}
