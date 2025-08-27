@@ -16,7 +16,7 @@ public class SellersModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seller_seq")
-    @SequenceGenerator(name = "seller_seq", sequenceName = "sellers_seq", allocationSize = 1)
+    @SequenceGenerator(name = "seller_seq", sequenceName = "seller_seq", allocationSize = 1)
     @Column(name = "seller_id")
     private Integer sellerId;
 
@@ -36,7 +36,7 @@ public class SellersModel {
 
     public SellersModel(RequestSellersDto dto){
         this.sellerName = dto.sellerName();
-        this.sellerSsn = dto.sellerSSN();
+        this.sellerSsn = dto.sellerSsn();
         this.sellerEmail = dto.sellerEmail();
         this.sellerComRate = dto.sellerComRate() != null ? dto.sellerComRate() : 0.04;
         this.active = dto.active() != null ? dto.active() : true;

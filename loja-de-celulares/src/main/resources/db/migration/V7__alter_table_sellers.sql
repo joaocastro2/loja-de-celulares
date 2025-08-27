@@ -1,0 +1,1 @@
+ALTER TABLE sellers ALTER COLUMN seller_id SET DEFAULT nextval('seller_seq');

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record RequestSellersDto(
 
         @NotBlank String sellerName,
-        String sellerSSN,
+        @NotNull String sellerSsn,
         @NotBlank String sellerEmail,
         Double sellerComRate,
         Boolean active
