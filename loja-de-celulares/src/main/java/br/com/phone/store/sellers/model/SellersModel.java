@@ -1,9 +1,12 @@
 package br.com.phone.store.sellers.model;
 
 
+import br.com.phone.store.sales.model.SalesModel;
 import br.com.phone.store.sellers.dto.RequestSellersDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Table(name= "sellers")
 @Entity(name= "sellers")
@@ -33,6 +36,9 @@ public class SellersModel {
     private Double sellerComRate;
 
     private Boolean active;
+
+    @OneToMany(mappedBy = "sellerId")
+    private List<SalesModel> sales;
 
     public SellersModel(RequestSellersDto dto){
         this.sellerName = dto.sellerName();

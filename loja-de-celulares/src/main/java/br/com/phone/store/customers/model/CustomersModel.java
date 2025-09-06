@@ -1,10 +1,11 @@
 package br.com.phone.store.customers.model;
 
 import br.com.phone.store.customers.dto.RequestCustomersDto;
-import br.com.phone.store.sellers.dto.RequestSellersDto;
+import br.com.phone.store.sales.model.SalesModel;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Table(name = "customers")
 @Entity(name = "customers")
@@ -32,6 +33,10 @@ public class CustomersModel {
 
     @Column(name = "customer_phone", nullable = false)
     private String customerPhone;
+
+    @OneToMany(mappedBy = "customerId")
+    private List<SalesModel> sales;
+
 
     public CustomersModel(RequestCustomersDto dto){
         this.customerName = dto.customerName();
