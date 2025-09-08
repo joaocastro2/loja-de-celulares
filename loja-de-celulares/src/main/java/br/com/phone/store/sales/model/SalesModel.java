@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "sales")
@@ -36,6 +37,9 @@ public class SalesModel {
 
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
+
+    @OneToMany(mappedBy = "salesId")
+    private List<SalesModel> salesId;
 
     public SalesModel (RequestSalesDto dto, CustomersModel customer, SellersModel seller){
         this.customerId = customer;
