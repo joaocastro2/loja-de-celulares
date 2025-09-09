@@ -1,5 +1,6 @@
 package br.com.phone.store.sale_items.model;
 
+import br.com.phone.store.sale_items.model.dto.RequestSaleItemsDto;
 import br.com.phone.store.sales.model.SalesModel;
 import br.com.phone.store.stock.model.StockModel;
 import jakarta.persistence.*;
@@ -37,5 +38,12 @@ public class SaleItemsModel {
     @Column(name = "saleitems_subtotal", nullable = false)
     private Double saleItemsSubtotal;
 
+    public SaleItemsModel (RequestSaleItemsDto dto, SalesModel salesId, StockModel productId){
+        this.salesId = salesId;
+        this.productId = productId;
+        this.saleItemsQtty = dto.saleItemsQtty();
+        this.unitPrice = dto.saleItemsUnitPrice();
+        this.saleItemsSubtotal = this.unitPrice * this.saleItemsQtty;
+    }
 
 }
