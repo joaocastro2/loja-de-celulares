@@ -1,14 +1,14 @@
 package br.com.phone.store.sales.dto;
 
+import br.com.phone.store.sale_items.model.dto.RequestSaleItemsDto;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record RequestSalesDto(
 
         Integer customerId,
         Integer sellerId,
-        LocalDate date,
-        Double totalAmount
+        @NotNull List<RequestSaleItemsDto> items
 ){}

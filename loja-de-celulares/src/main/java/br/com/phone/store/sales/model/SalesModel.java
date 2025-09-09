@@ -1,12 +1,13 @@
 package br.com.phone.store.sales.model;
 
 import br.com.phone.store.customers.model.CustomersModel;
-import br.com.phone.store.sales.dto.RequestSalesDto;
+import br.com.phone.store.sale_items.model.SaleItemsModel;
 import br.com.phone.store.sellers.model.SellersModel;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,22 +16,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "sale_id")
+@EqualsAndHashCode(of = "saleId")
 public class SalesModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_seq")
-    @SequenceGenerator(name = "sales_seq", sequenceName = "sales_seq", allocationSize = 0)
+    @SequenceGenerator(name = "sales_seq", sequenceName = "sales_seq", allocationSize = 1)
     @Column(name = "sale_id")
     private Integer saleId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private CustomersModel customerId;
+    private CustomersModel customer;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
-    private SellersModel sellerId;
+    private SellersModel seller;
 
     @Column(name = "sale_date", nullable = false)
     private LocalDate date;
@@ -38,14 +39,13 @@ public class SalesModel {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
-    @OneToMany(mappedBy = "salesId")
-    private List<SalesModel> salesId;
+    @OneToMany(mappedBy = "sales", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SaleItemsModel> items = new ArrayList<>();
 
-    public SalesModel (RequestSalesDto dto, CustomersModel customer, SellersModel seller){
-        this.customerId = customer;
-        this.sellerId = seller;
-        this.date = dto.date();
-        this.totalAmount = dto.totalAmount();
+    public SalesModel(CustomersModel customer, SellersModel seller) {
+        this.customer = customer;
+        this.seller = seller;
+        this.date = LocalDate.now();
+        this.totalAmount = 0.0; // será atualizado no service
     }
-
 }
