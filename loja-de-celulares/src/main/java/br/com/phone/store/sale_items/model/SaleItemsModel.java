@@ -1,6 +1,6 @@
 package br.com.phone.store.sale_items.model;
 
-import br.com.phone.store.sale_items.model.dto.RequestSaleItemsDto;
+import br.com.phone.store.sale_items.dto.RequestSaleItemsDto;
 import br.com.phone.store.sales.model.SalesModel;
 import br.com.phone.store.stock.model.StockModel;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class SaleItemsModel {
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)
-    private SalesModel salesId;
+    private SalesModel sales;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -39,7 +39,7 @@ public class SaleItemsModel {
     private Double saleItemsSubtotal;
 
     public SaleItemsModel (RequestSaleItemsDto dto, SalesModel salesId, StockModel productId){
-        this.salesId = salesId;
+        this.sales = salesId;
         this.productId = productId;
         this.saleItemsQtty = dto.saleItemsQtty();
         this.unitPrice = dto.saleItemsUnitPrice();
