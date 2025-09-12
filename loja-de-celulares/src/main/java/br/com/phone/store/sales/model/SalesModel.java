@@ -27,7 +27,7 @@ public class SalesModel {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private CustomersModel customer;
+    private CustomersModel customerId;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
@@ -43,9 +43,11 @@ public class SalesModel {
     private List<SaleItemsModel> items = new ArrayList<>();
 
     public SalesModel(CustomersModel customer, SellersModel seller) {
-        this.customer = customer;
+        this.customerId = customer;
         this.seller = seller;
         this.date = LocalDate.now();
         this.totalAmount = 0.0; // será atualizado no service
     }
+
+
 }
