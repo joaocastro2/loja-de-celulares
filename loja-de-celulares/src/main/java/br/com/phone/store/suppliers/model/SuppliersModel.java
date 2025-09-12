@@ -23,7 +23,7 @@ public class SuppliersModel {
     private String supplierName;
 
     @Column(name = "supplier_ein", nullable = false)
-    private String supplierEIN;
+    private Long supplierEIN;
 
     private Boolean active;
 
