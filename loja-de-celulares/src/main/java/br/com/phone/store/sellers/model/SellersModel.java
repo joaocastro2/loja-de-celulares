@@ -6,6 +6,7 @@ import br.com.phone.store.sellers.dto.RequestSellersDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name= "sellers")
@@ -37,8 +38,8 @@ public class SellersModel {
 
     private Boolean active;
 
-    @OneToMany(mappedBy = "sellerId")
-    private List<SalesModel> sales;
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SalesModel> sales = new ArrayList<>();
 
     public SellersModel(RequestSellersDto dto){
         this.sellerName = dto.sellerName();
