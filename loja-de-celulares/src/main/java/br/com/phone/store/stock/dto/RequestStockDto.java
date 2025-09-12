@@ -4,6 +4,8 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 //Contains the information that will be sent by the user
 public record RequestStockDto(
 

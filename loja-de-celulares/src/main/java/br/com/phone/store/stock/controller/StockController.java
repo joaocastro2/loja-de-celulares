@@ -67,7 +67,7 @@ public class StockController {
 
     private SuppliersModel getSupplierOrThrow(String supplierId) {
         UUID uuid = UUID.fromString(supplierId);
-        return supplierRepository.findById(String.valueOf(uuid))
+        return supplierRepository.findById(UUID.fromString(String.valueOf(uuid)))
                 .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
     }
 }

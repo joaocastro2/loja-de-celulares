@@ -20,7 +20,7 @@ public class StockModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "product_id")
-    private String productId;
+    private UUID productId;
     @Column(name = "product_name")
     private String productName;
     private Integer price_in_cents;
