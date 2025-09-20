@@ -71,3 +71,5 @@ public class StockController {
                 .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
     }
 }
+
+//teste
