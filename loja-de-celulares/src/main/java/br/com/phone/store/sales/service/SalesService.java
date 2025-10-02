@@ -66,7 +66,7 @@ public class SalesService {
             total = total.add(subtotal);
 
             // Cria item da venda
-            SaleItemsModel saleItem = new SaleItemsModel(itemDto, sale, product);
+            SaleItemsModel saleItem = new SaleItemsModel(itemDto, sale, product, unitPrice.doubleValue());
             saleItem.setUnitPrice(unitPrice.doubleValue());
             saleItem.setSaleItemsSubtotal(subtotal.doubleValue());
 

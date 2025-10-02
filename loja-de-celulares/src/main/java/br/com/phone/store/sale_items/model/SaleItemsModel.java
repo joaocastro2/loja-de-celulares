@@ -38,12 +38,13 @@ public class SaleItemsModel {
     @Column(name = "saleitems_subtotal", nullable = false)
     private Double saleItemsSubtotal;
 
-    public SaleItemsModel (RequestSaleItemsDto dto, SalesModel salesId, StockModel productId){
-        this.sales = salesId;
-        this.productId = productId;
+    public SaleItemsModel(RequestSaleItemsDto dto, SalesModel sales, StockModel product, Double unitPrice) {
+        this.sales = sales;
+        this.productId = product;
         this.saleItemsQtty = dto.saleItemsQtty();
-        this.unitPrice = dto.saleItemsUnitPrice();
-        this.saleItemsSubtotal = this.unitPrice * this.saleItemsQtty;
+        this.unitPrice = unitPrice;
+        this.saleItemsSubtotal = unitPrice * this.saleItemsQtty;
     }
+
 
 }
