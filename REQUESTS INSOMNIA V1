@@ -1,0 +1,182 @@
+type: collection.insomnia.rest/5.0
+name: loja-de-celulares
+meta:
+  id: wrk_207e9aedef4a4119b3fa465efb3dea3e
+  created: 1759255793228
+  modified: 1760224888844
+  description: ""
+collection:
+  - url: localhost:8080/suppliers
+    name: INSERT_SUPPLIER
+    meta:
+      id: req_de501d4846634a58ba6917961cfc82db
+      created: 1760229209616
+      modified: 1760231643728
+      isPrivate: false
+      description: ""
+      sortKey: -1760229209616
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"supplierName":"HG TECH",
+        	"supplierEIN":"111111111"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/stock
+    name: INSERT_ITEM
+    meta:
+      id: req_ab0ae8c1f3a94ad1a0ae845ff1023f0a
+      created: 1760229884436
+      modified: 1760231650306
+      isPrivate: false
+      description: ""
+      sortKey: -1760229884436
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"product_name":"PC GAMER PICHAU",
+        	"price_in_cents":"30000",
+        	"amount":"10",
+        	"supplier_id":"64916417-a2ee-4229-993a-ea880e5623a1"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/sellers
+    name: INSERT_SELLER
+    meta:
+      id: req_5ecb124c7ae745d9abd1f833e2eb1ca9
+      created: 1760230581614
+      modified: 1760231178288
+      isPrivate: false
+      description: ""
+      sortKey: -1760230581614
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"sellerName":"Joao Castro",
+        	"sellerSsn":"111111111",
+        	"sellerEmail":"joaoc@gmail.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/customers
+    name: INSERT_CUSTOMER
+    meta:
+      id: req_c432f8c640dc47088f86d1d3dbdcccb9
+      created: 1760230803413
+      modified: 1760231654651
+      isPrivate: false
+      description: ""
+      sortKey: -1760230803413
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"customerName":"Sillas Santos",
+        	"customerSsn":"222222222",
+        	"customerEmail":"sillass@gmail.com",
+        	"customerPhone":"7776665439"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/sales
+    name: CREATE_SALE
+    meta:
+      id: req_1d52abfcbce742ed840094e3d25912c6
+      created: 1760231121978
+      modified: 1760231887740
+      isPrivate: false
+      description: ""
+      sortKey: -1760231121978
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "customerId": "1",
+          "sellerId": "1",
+          "items": [
+            {
+              "productId": "5b674029-7bef-4d0e-b2f2-b4995e41817c",
+              "saleItemsQtty": 1
+        		}
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_4c3603819059bcce1575d9ba990d5e0ed3773e3a
+    created: 1760224791549
+    modified: 1760224791549
+environments:
+  name: Base Environment
+  meta:
+    id: env_4c3603819059bcce1575d9ba990d5e0ed3773e3a
+    created: 1759255793232
+    modified: 1760224791214
+    isPrivate: false
