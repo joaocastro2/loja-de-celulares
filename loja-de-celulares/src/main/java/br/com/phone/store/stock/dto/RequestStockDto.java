@@ -3,13 +3,14 @@ package br.com.phone.store.stock.dto;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import javafx.scene.text.Text;
 
 import java.util.UUID;
 
 //Contains the information that will be sent by the user
 public record RequestStockDto(
 
-        String product_id,
+        UUID product_id,
 
         @NotBlank(message = "O nome do produto não pode estar vazio.")
         String product_name,
