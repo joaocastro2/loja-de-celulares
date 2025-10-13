@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+//SALESMODEL CLASS CONFIGURATIONS
 @Entity
 @Table(name = "sales")
 @Getter
