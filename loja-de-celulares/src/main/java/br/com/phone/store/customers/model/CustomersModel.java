@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
+//CUSTOMER CLASS "SETTINGS"
 @Table(name = "customers")
 @Entity(name = "customers")
 @Getter
@@ -14,8 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "customerId")
+//CUSTOMER CLASS
 public class CustomersModel {
 
+    //CUSTOMER OBJECT ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq", allocationSize = 0)
@@ -37,7 +40,7 @@ public class CustomersModel {
     @OneToMany(mappedBy = "customerId")
     private List<SalesModel> sales;
 
-
+    //CLASS CONSTRUCTOR
     public CustomersModel(RequestCustomersDto dto){
         this.customerName = dto.customerName();
         this.customerSsn = dto.customerSsn();

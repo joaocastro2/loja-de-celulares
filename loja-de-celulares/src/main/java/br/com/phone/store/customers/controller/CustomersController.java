@@ -18,6 +18,7 @@ public class CustomersController {
     @Autowired
     private CustomersRepository customersRepository;
 
+    //Method responsible for registering a new customer
     @PostMapping
     public ResponseEntity<CustomersModel> registerCustomer(@RequestBody @Valid RequestCustomersDto newCustomer) {
         CustomersModel customersModel = new CustomersModel(newCustomer);
