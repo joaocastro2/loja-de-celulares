@@ -6,6 +6,7 @@ import br.com.phone.store.stock.model.StockModel;
 import jakarta.persistence.*;
 import lombok.*;
 
+//SaleItems Class Configurations
 @Table(name = "sale_items")
 @Entity(name = "sale_items")
 @Getter
@@ -38,6 +39,7 @@ public class SaleItemsModel {
     @Column(name = "saleitems_subtotal", nullable = false)
     private Double saleItemsSubtotal;
 
+    //Constructor SaleItems
     public SaleItemsModel(RequestSaleItemsDto dto, SalesModel sales, StockModel product, Double unitPrice) {
         this.sales = sales;
         this.productId = product;
