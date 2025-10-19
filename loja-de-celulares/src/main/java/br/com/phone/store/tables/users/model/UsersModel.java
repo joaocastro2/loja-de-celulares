@@ -29,6 +29,8 @@ public class UsersModel {
     @Column(name = "user_email", nullable = false)
     private String userEmail;
 
+    private String userPassword;
+
     private Boolean active;
 
 }

@@ -3,5 +3,6 @@ CREATE TABLE users(
     user_name TEXT NOT NULL,
     user_ssn CHAR(9) NOT NULL,
     user_email TEXT,
+    user_password,
     active BOOLEAN
 );
