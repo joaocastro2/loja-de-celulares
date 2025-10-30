@@ -1,0 +1,237 @@
+type: collection.insomnia.rest/5.0
+name: loja-de-celulares
+meta:
+  id: wrk_207e9aedef4a4119b3fa465efb3dea3e
+  created: 1759255793228
+  modified: 1759255813132
+  description: ""
+collection:
+  - url: LOCALHOST:8080/sales
+    name: REALIZA-VENDA
+    meta:
+      id: req_a309ed6bb8d443bd957cc532f23d2bc5
+      created: 1759255793318
+      modified: 1759437637324
+      isPrivate: false
+      description: ""
+      sortKey: -1759255793318
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "customerId":8,
+          "sellerId": 2,
+          "items": [
+            {
+              "productId": "19e88f34-3a3e-4359-9635-ff8c77c8bae0",
+              "saleItemsQtty": 2
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/customers
+    name: CADASTRA_CLIENTE
+    meta:
+      id: req_6545359ded024a18833ef1b230dfb0e5
+      created: 1759426770608
+      modified: 1759437519711
+      isPrivate: false
+      description: ""
+      sortKey: -1759426770608
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"customerName":"MARCOS",
+        	"customerSsn":"111222333",
+        	"customerEmail":"MV@gmail.com",
+        	"customerPhone":"9999999999"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/stock
+    name: CADASTRA_ITEM
+    meta:
+      id: req_f458616a82d04f85b33796331b9cb85e
+      created: 1759427236825
+      modified: 1759437335323
+      isPrivate: false
+      description: ""
+      sortKey: -1759427236825
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"product_name":"SOFA",
+        	"price_in_cents":10000,
+        	"amount":10,
+        	"supplier_id":"2d53932e-cf5c-4ad0-9b96-d049e792f71e"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/suppliers
+    name: CADASTRA_FORNECEDOR
+    meta:
+      id: req_6f4b7b96a2cc4004afec54d1bfb011e3
+      created: 1759431716889
+      modified: 1759437283743
+      isPrivate: false
+      description: ""
+      sortKey: -1759431716889
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"supplierName":"capital",
+        	"supplierEIN":"333333333"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/sellers
+    name: CADASTRA_VENDEDOR
+    meta:
+      id: req_5b7a38fbb3b64588af7e875105b77948
+      created: 1759433572922
+      modified: 1759437416091
+      isPrivate: false
+      description: ""
+      sortKey: -1759433572922
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"sellerName":"JV",
+        	"sellerSsn":"111111115",
+        	"sellerEmail":"JV@gmail.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/auth/login
+    name: New Request
+    meta:
+      id: req_13376e48371d4158bdf9d79b92bc0d97
+      created: 1761851695462
+      modified: 1761854546868
+      isPrivate: false
+      description: ""
+      sortKey: -1761851695462
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email":"gabriel2@gmail.com",
+           "password":"123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.6.1
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/users
+    name: New Request
+    meta:
+      id: req_a5223a92a2564333aa0681a4d8fca21b
+      created: 1761852423128
+      modified: 1761853598576
+      isPrivate: false
+      description: ""
+      sortKey: -1761852423128
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.6.1
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2dpbi1hdXRoLWFwaSIsInN1YiI6ImdhYnJpZWwyQGdtYWlsLmNvbSIsImV4cCI6MTc2MTg2MDc1NX0.2S6wxKx53fT32noNp4g53C1vSr2XIoVorNNqgV_AczM
+      prefix: Bearer
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_4c3603819059bcce1575d9ba990d5e0ed3773e3a
+    created: 1759255793235
+    modified: 1759255793235
+environments:
+  name: Base Environment
+  meta:
+    id: env_4c3603819059bcce1575d9ba990d5e0ed3773e3a
+    created: 1759255793232
+    modified: 1759255793232
+    isPrivate: false
