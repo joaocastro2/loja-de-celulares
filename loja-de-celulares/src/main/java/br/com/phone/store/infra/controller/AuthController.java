@@ -39,12 +39,13 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDto body){
 
-        Optional<UsersModel> user = this.repository.findByUserEmail(body.email());
+        Optional<UsersModel> user = this.repository.findByUserEmail(body.userEmail());
         if (user.isEmpty()){
             UsersModel newUser = new UsersModel();
-            newUser.setUserPassword(passwordEncoder.encode(body.password()));
-            newUser.setUserEmail(body.email());
-            newUser.setUserName(body.name());
+            newUser.setUserPassword(passwordEncoder.encode(body.userPassword()));
+            newUser.setUserEmail(body.userEmail());
+            newUser.setUserName(body.userName());
+            newUser.setUserSsn(body.userSsn());
             this.repository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
