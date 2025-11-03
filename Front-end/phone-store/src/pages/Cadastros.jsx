@@ -49,14 +49,14 @@ const handleSubmit = async (e) => {
         // Renomeia 'product_name' para 'product_name' (se você mudou o estado, senão: product.name)
         product_name: product.product_name, // Use 'product.name' se não renomeou o estado
         description: product.description,
-        quantity: parseInt(product.amount, 10), // Garante que quantity é um inteiro
+        amount: parseInt(product.amount, 10), // Garante que quantity é um inteiro
         // Converte o preço unitário para centavos e garante que é um inteiro
         price_in_cents: Math.round(parseFloat(product.unit_price) * 100), 
         supplier_id: product.supplier_id 
     };
     
     // Verificação de segurança para números
-    if (isNaN(payload.quantity) || isNaN(payload.price_in_cents)) {
+    if (isNaN(payload.amount) || isNaN(payload.price_in_cents)) {
         setMessage('Erro de validação: Quantidade e Preço devem ser números válidos.');
         setIsError(true);
         setLoading(false);
