@@ -1,0 +1,10 @@
+/* src/index.css */
+
+/* ESSENCIAL: Substitua as três linhas @tailwind pela linha @import */
+@import "tailwindcss";
+
+/* Estilos globais adicionais, se desejar */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
