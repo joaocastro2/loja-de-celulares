@@ -9,9 +9,9 @@ const API_URL = 'http://localhost:8080/stock'; // O endpoint do seu StockControl
 // Estado inicial dos campos do produto
 // src/pages/Cadastros.jsx
 const INITIAL_PRODUCT_STATE = {
-    name: '',
+    product_name: '',
     description: '',
-    quantity: '', // Altere para string vazia para evitar NaN ao limpar o campo
+    amount: '', // Altere para string vazia para evitar NaN ao limpar o campo
     unit_price: '', // Altere para string vazia para evitar NaN ao limpar o campo
     supplier_id: '' 
 };
@@ -32,47 +32,55 @@ const Cadastros = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setMessage(''); // Limpa mensagens anteriores
-        setLoading(true);
+    // src/pages/Cadastros.jsx
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(''); 
+    setLoading(true);
 
-        // 1. Obter o Token
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setMessage('Erro: Usuário não autenticado. Faça login novamente.');
-            setIsError(true);
-            setLoading(false);
-            return;
-        }
+    const token = localStorage.getItem('token');
+    if (!token) {
+        // ... (código de erro de token)
+        return;
+    }
 
-        try {
-            // 2. Requisição POST
-            const response = await axios.post(API_URL, product, {
-                headers: {
-                    // Adiciona o token JWT no cabeçalho Authorization
-                    'Authorization': `Bearer ${token}` 
-                }
-            });
-
-            // 3. Sucesso (Status 200/201)
-            setMessage(`Produto "${response.data.name}" cadastrado com sucesso! ID: ${response.data.id}`);
-            setIsError(false);
-            setProduct(INITIAL_PRODUCT_STATE); // Limpa o formulário
-            
-        } catch (err) {
-            // 4. Trata Erros (400, 401, etc.)
-            const errorMessage = err.response?.data?.message || err.response?.data || 
-                               'Ocorreu um erro no servidor ou a requisição falhou.';
-            
-            setMessage(`Erro no Cadastro: ${errorMessage}`);
-            setIsError(true);
-            console.error("Erro no cadastro:", err);
-            
-        } finally {
-            setLoading(false);
-        }
+    // *** CORREÇÃO DE CAMPOS E PREÇO AQUI ***
+    const payload = {
+        // Renomeia 'product_name' para 'product_name' (se você mudou o estado, senão: product.name)
+        product_name: product.product_name, // Use 'product.name' se não renomeou o estado
+        description: product.description,
+        quantity: parseInt(product.amount, 10), // Garante que quantity é um inteiro
+        // Converte o preço unitário para centavos e garante que é um inteiro
+        price_in_cents: Math.round(parseFloat(product.unit_price) * 100), 
+        supplier_id: product.supplier_id 
     };
+    
+    // Verificação de segurança para números
+    if (isNaN(payload.quantity) || isNaN(payload.price_in_cents)) {
+        setMessage('Erro de validação: Quantidade e Preço devem ser números válidos.');
+        setIsError(true);
+        setLoading(false);
+        return;
+    }
+
+    try {
+        // Envia o novo payload em vez do estado 'product' diretamente
+        const response = await axios.post(API_URL, payload, { // Use 'payload'
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' // Boa prática
+            }
+        });
+
+        // ... (restante do código de sucesso)
+        setMessage(`Produto "${response.data.product_name}" cadastrado com sucesso! ID: ${response.data.id}`); // Ajuste aqui também
+        
+    } catch (err) {
+        // ... (restante do código de erro)
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <div className="p-6">
@@ -97,8 +105,8 @@ const Cadastros = () => {
                         <input
                             type="text"
                             id="name"
-                            name="name"
-                            value={product.name}
+                            name="product_name"
+                            value={product.product_name}
                             onChange={handleChange}
                             required
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
@@ -125,9 +133,9 @@ const Cadastros = () => {
                         </label>
                         <input
                             type="number"
-                            id="quantity"
-                            name="quantity"
-                            value={product.quantity}
+                            id="amount"
+                            name="amount"
+                            value={product.amount}
                             onChange={handleChange}
                             required
                             min="0"
