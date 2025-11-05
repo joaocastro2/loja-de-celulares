@@ -1,11 +1,13 @@
-// src/App.jsx
-import Login from './pages/Login';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './AppRoutes';
 
 function App() {
   return (
-    // O componente LoginScreen já cuida do layout da tela
-    <Login />
-  )
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
 }
 
 export default App;

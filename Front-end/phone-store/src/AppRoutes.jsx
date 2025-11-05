@@ -1,34 +1,34 @@
-// src/AppRoutes.jsx
-
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Cadastros from './pages/Cadastros'; // Importado
-import Estoque from './pages/Estoque';     // Importado
-import PrivateRoute from './components/PrivateRoute'; 
+import Cadastros from './pages/Cadastros';
+import Estoque from './pages/Estoque';
+import PrivateRoute from './components/PrivateRoute';
+
+// Novos componentes de fornecedores
+import CadastrarFornecedor from './pages/CadastrarFornecedor';
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* 1. Rota Pública: Tela de Login */}
+      {/* Rota pública: Login */}
       <Route path="/" element={<Login />} />
-      
-      {/* 2. Rotas Protegidas: Usam o PrivateRoute como Layout/Guarda */}
+
+      {/* Rotas protegidas */}
       <Route path="/app" element={<PrivateRoute />}>
         <Route path="home" element={<Home />} />
-        
-        {/* Rota para Cadastrar Produtos */}
-        <Route path="cadastros" element={<Cadastros />} /> 
-        
-        {/* Rota para a Listagem de Estoque */}
-        <Route path="estoque" element={<Estoque />} /> 
+        <Route path="cadastros" element={<Cadastros />} />
+        <Route path="estoque" element={<Estoque />} />
 
-        {/* Catch-all dentro da área protegida */}
-        <Route path="*" element={<Navigate to="home" replace />} /> 
+        {/* Rotas de Fornecedores */}
+        <Route path="fornecedores" element={<CadastrarFornecedor />} />
+
+        {/* Fallback interno da área protegida */}
+        <Route path="*" element={<Navigate to="home" replace />} />
       </Route>
 
-      {/* 3. Rota de fallback para qualquer coisa não encontrada */}
+      {/* Fallback global */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

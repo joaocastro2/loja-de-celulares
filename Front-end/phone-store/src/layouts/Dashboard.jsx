@@ -1,15 +1,15 @@
-// src/layouts/Dashboard.jsx
-
 import React, { useState } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { FaHome, FaBox, FaPlusSquare, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+// Importações de ícones atualizadas para incluir FaUserTie e FaUsers
+import { FaHome, FaBox, FaPlusSquare, FaSignOutAlt, FaBars, FaTimes, FaUserTie, FaUsers } from 'react-icons/fa';
 
 // Itens de navegação do menu lateral
 const navItems = [
     { name: 'Início', path: '/app/home', icon: FaHome },
-    { name: 'Listar Estoque', path: '/app/estoque', icon: FaBox },         // Rota correta
+    { name: 'Listar Estoque', path: '/app/estoque', icon: FaBox },         // Rota correta
     { name: 'Cadastrar Produto', path: '/app/cadastros', icon: FaPlusSquare }, // Rota correta
-    // Adicione mais itens de menu conforme necessário
+    // NOVOS ITENS DE FORNECEDORES ADICIONADOS AQUI
+    { name: 'Cadastrar Fornecedor', path: '/app/fornecedores', icon: FaUserTie }, 
 ];
 
 const Dashboard = () => {
@@ -57,7 +57,7 @@ const Dashboard = () => {
                             key={item.name}
                             to={item.path}
                             className={`flex items-center px-4 py-2 rounded-lg transition duration-200
-                                ${location.pathname === item.path 
+                                ${location.pathname === item.path || (item.path !== '/app/home' && location.pathname.startsWith(item.path + '/'))
                                     ? 'bg-indigo-900 text-white font-semibold shadow-md' 
                                     : 'text-indigo-200 hover:bg-indigo-600 hover:text-white'}`}
                         >
