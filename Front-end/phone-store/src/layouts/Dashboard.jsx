@@ -8,8 +8,9 @@ const navItems = [
     { name: 'Início', path: '/app/home', icon: FaHome },
     { name: 'Listar Estoque', path: '/app/estoque', icon: FaBox },         // Rota correta
     { name: 'Cadastrar Produto', path: '/app/cadastros', icon: FaPlusSquare }, // Rota correta
-    // NOVOS ITENS DE FORNECEDORES ADICIONADOS AQUI
     { name: 'Cadastrar Fornecedor', path: '/app/fornecedores', icon: FaUserTie }, 
+    { name: 'Cadastrar Cliente', path: '/app/clientes', icon: FaUsers },    
+    { name: 'Cadastrar Vendedor', path: '/app/vendedores', icon: FaUserTie },
 ];
 
 const Dashboard = () => {
