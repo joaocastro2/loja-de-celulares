@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { FaUser } from 'react-icons/fa'; // Ícone de cliente
 
 const API_URL = 'http://localhost:8080/customers';
 
@@ -13,7 +14,6 @@ const CadastrarClientes = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Limita tamanho do SSN e telefone
     if (name === 'ssn' && value.length > 9) return;
     if (name === 'telefone' && value.length > 10) return;
     setFormData({ ...formData, [name]: value });
@@ -22,7 +22,6 @@ const CadastrarClientes = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validações simples
     if (formData.ssn.length !== 9) {
       alert('O SSN deve ter exatamente 9 dígitos.');
       return;
@@ -57,8 +56,10 @@ const CadastrarClientes = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-xl font-bold mb-4 text-indigo-700">Cadastrar Cliente</h2>
+    <div className="max-w-md mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-xl font-bold mb-4 text-gray-700 flex items-center">
+        <FaUser className="mr-2 text-gray-500" /> Cadastrar Novo Cliente
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -66,7 +67,7 @@ const CadastrarClientes = () => {
           placeholder="Nome"
           value={formData.nome}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
         />
         <input
@@ -75,7 +76,7 @@ const CadastrarClientes = () => {
           placeholder="SSN (9 dígitos)"
           value={formData.ssn}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
         />
         <input
@@ -84,7 +85,7 @@ const CadastrarClientes = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
         />
         <input
@@ -93,12 +94,13 @@ const CadastrarClientes = () => {
           placeholder="Telefone (até 10 dígitos)"
           value={formData.telefone}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
         />
+
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+          className="w-full flex justify-center items-center py-2 px-4 rounded-lg text-lg font-medium text-white shadow-md transition duration-200 bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
         >
           Salvar
         </button>
