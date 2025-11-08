@@ -1,15 +1,32 @@
-// src/AppRoutes.jsx
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './layouts/Dashboard';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Estoque from './pages/Estoque';
-import Cadastros from './pages/Cadastros'; // usado para cadastrar produto
-import CadastrarFornecedor from './pages/CadastrarFornecedor';
-import CadastrarClientes from './pages/CadastrarClientes';
-import CadastrarVendedores from './pages/CadastrarVendedores';
+import PrivateRoute from './hooks/layouts/PrivateRoute'; // OK
+import Dashboard from './hooks/layouts/Dashboard'; // OK 
 
+// --- CORREÇÕES DE IMPORTAÇÃO ---
+
+// Login foi movido para features/Auth
+import Login from './auth/Login'; 
+
+// Home foi movido para features/Dashboard
+import Home from './features/dashboard/HomePage'; 
+
+// O resto das features já estava com o caminho certo, mas o 'Login' e o 'Home' estavam quebrados.
+import ListStock from './features/stock/ListStock';
+import RegisterStock from './features/stock/RegisterStock';
+import RegisterSupplier from './features/supplier/RegisterSupplier';
+import RegisterCustomers from './features/customers/RegisterCustomers';
+import RegisterSeller from './features/seller/RegisterSeller';
+
+
+// --- NOVAS IMPORTAÇÕES NECESSÁRIAS ---
+// O código abaixo usa 'Estoque', 'Cadastros' e 'CadastrarClientes' sem importá-los.
+// Precisamos importar os componentes corretos para essas rotas.
+// Assumindo:
+// Estoque = ListStock
+// Cadastros (Cadastro de Estoque) = RegisterStock
+// CadastrarClientes = RegisterCustomers
+
+// Agora usamos os nomes dos componentes importados acima
 function AppRoutes() {
   return (
     <Routes>
@@ -19,22 +36,29 @@ function AppRoutes() {
       {/* Rotas privadas */}
       <Route element={<PrivateRoute />}>
         <Route path="/app" element={<Dashboard />}>
+          
           {/* Página inicial */}
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
 
           {/* Grupo Estoque */}
-          <Route path="estoque" element={<Estoque />} />
-          <Route path="estoque/cadastrar" element={<Cadastros />} />
+          {/* Estava: <Route path="estoque" element={<Estoque />} /> */}
+          <Route path="estoque" element={<ListStock />} /> 
+          
+          {/* Estava: <Route path="estoque/cadastrar" element={<Cadastros />} /> */}
+          <Route path="estoque/cadastrar" element={<RegisterStock />} /> 
 
           {/* Clientes */}
-          <Route path="clientes" element={<CadastrarClientes />} />
+          {/* Estava: <Route path="clientes" element={<CadastrarClientes />} /> */}
+          <Route path="clientes" element={<RegisterCustomers />} />
 
           {/* Fornecedores */}
-          <Route path="fornecedores" element={<CadastrarFornecedor />} />
+          {/* O componente RegisterSupplier JÁ FOI IMPORTADO */}
+          <Route path="fornecedores" element={<RegisterSupplier />} />
 
           {/* Vendedores */}
-          <Route path="vendedores" element={<CadastrarVendedores />} />
+          {/* O componente RegisterSeller JÁ FOI IMPORTADO */}
+          <Route path="vendedores" element={<RegisterSeller />} />
         </Route>
       </Route>
     </Routes>
