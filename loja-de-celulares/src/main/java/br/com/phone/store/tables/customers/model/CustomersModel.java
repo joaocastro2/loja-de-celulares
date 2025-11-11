@@ -7,7 +7,15 @@ import lombok.*;
 
 import java.util.List;
 
-//CUSTOMER CLASS "SETTINGS"
+/**
+ * Entity class representing a customer in the phone store system.
+ *
+ * <p>This class maps to the {@code customers} table in the database and contains
+ * customer-related attributes such as name, SSN, email, and phone number.</p>
+ *
+ * <p>It also establishes a one-to-many relationship with {@link SalesModel},
+ * indicating that a customer can be associated with multiple sales records.</p>
+ */
 @Table(name = "customers")
 @Entity(name = "customers")
 @Getter
@@ -15,37 +23,62 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "customerId")
-//CUSTOMER CLASS
 public class CustomersModel {
 
-    //CUSTOMER OBJECT ATTRIBUTES
+    /**
+     * Unique identifier for the customer.
+     * Auto-generated using a sequence named {@code customer_seq}.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq", allocationSize = 0)
     @Column(name = "customer_id")
     private Integer customerId;
 
+    /**
+     * Full name of the customer.
+     * Cannot be null.
+     */
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
+    /**
+     * Customer's identification number.
+     * Cannot be null.
+     */
     @Column(name = "customer_ssn", nullable = false)
     private String customerSsn;
 
+    /**
+     * Customer's email address.
+     * Cannot be null.
+     */
     @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
+    /**
+     * Customer's phone number.
+     * Cannot be null.
+     */
     @Column(name = "customer_phone", nullable = false)
     private String customerPhone;
 
+    /**
+     * List of sales associated with this customer.
+     * Mapped by the {@code customerId} field in {@link SalesModel}.
+     */
     @OneToMany(mappedBy = "customerId")
     private List<SalesModel> sales;
 
-    //CLASS CONSTRUCTOR
+    /**
+     * Constructs a {@code CustomersModel} instance from a {@link RequestCustomersDto}.
+     *
+     * @param dto DTO containing customer registration data.
+     */
     public CustomersModel(RequestCustomersDto dto){
         this.customerName = dto.customerName();
         this.customerSsn = dto.customerSsn();
         this.customerEmail = dto.customerEmail();
         this.customerPhone = dto.customerPhone();
     }
-
 }

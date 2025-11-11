@@ -16,6 +16,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class responsible for handling business logic related to sales transactions.
+ *
+ * <p>This class coordinates the creation and retrieval of sales, including validation of
+ * customer and seller data, stock updates, item pricing, and total calculation.</p>
+ *
+ * <p>It interacts with multiple repositories to persist and manage sales-related entities.</p>
+ */
 @Service
 public class SalesService {
 
@@ -24,6 +32,14 @@ public class SalesService {
     private final SellersRepository sellersRepository;
     private final StockRepository stockRepository;
 
+    /**
+     * Constructs a {@code SalesService} with the required repositories.
+     *
+     * @param salesRepository Repository for persisting sales.
+     * @param customersRepository Repository for retrieving customer data.
+     * @param sellersRepository Repository for retrieving seller data.
+     * @param stockRepository Repository for managing product stock.
+     */
     public SalesService(SalesRepository salesRepository,
                         CustomersRepository customersRepository,
                         SellersRepository sellersRepository,
@@ -34,6 +50,18 @@ public class SalesService {
         this.stockRepository = stockRepository;
     }
 
+    /**
+     * Creates a new sale transaction.
+     *
+     * <p>This method validates customer and seller IDs, checks product availability,
+     * updates stock quantities, calculates item subtotals and total amount, and persists
+     * the sale and its items.</p>
+     *
+     * @param dto DTO containing sale details and items.
+     * @return The persisted {@link SalesModel} representing the completed sale.
+     * @throws IllegalArgumentException if customer, seller, or product is not found,
+     *                                  or if stock is insufficient.
+     */
     @Transactional
     public SalesModel createSale(RequestSalesDto dto) {
         var customer = customersRepository.findById(dto.customerId())
@@ -54,18 +82,15 @@ public class SalesService {
                 throw new IllegalArgumentException("Estoque insuficiente para produto " + product.getProductName());
             }
 
-            // Atualiza o estoque
             product.setAmount(product.getAmount() - itemDto.saleItemsQtty());
             stockRepository.save(product);
 
-            // Calcula preço unitário (em reais)
             BigDecimal unitPrice = BigDecimal.valueOf(product.getPrice_in_cents())
                     .divide(BigDecimal.valueOf(100));
             BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(itemDto.saleItemsQtty()));
 
             total = total.add(subtotal);
 
-            // Cria item da venda
             SaleItemsModel saleItem = new SaleItemsModel(itemDto, sale, product, unitPrice.doubleValue());
             saleItem.setUnitPrice(unitPrice.doubleValue());
             saleItem.setSaleItemsSubtotal(subtotal.doubleValue());
@@ -79,6 +104,13 @@ public class SalesService {
         return salesRepository.save(sale);
     }
 
+    /**
+     * Retrieves a sale by its ID.
+     *
+     * @param id Unique identifier of the sale.
+     * @return The {@link SalesModel} corresponding to the given ID.
+     * @throws IllegalArgumentException if the sale is not found.
+     */
     public SalesModel getSale(Integer id) {
         return salesRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Venda não encontrada"));
