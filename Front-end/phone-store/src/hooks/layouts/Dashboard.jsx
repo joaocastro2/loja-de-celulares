@@ -33,11 +33,12 @@ const navGroups = [
     ],
   },
   {
-    name: 'Fornecedores',
-    icon: FaUserTie,
-    subItems: [
-      { name: 'Cadastrar Fornecedor', path: '/app/fornecedores' },
-    ],
+  name: 'Fornecedores',
+  icon: FaUserTie,
+  subItems: [
+    { name: 'Listar Fornecedores', path: '/app/fornecedores' },
+    { name: 'Cadastrar Fornecedor', path: '/app/fornecedores/cadastrar' },
+  ],
   },
   {
     name: 'Vendedores',

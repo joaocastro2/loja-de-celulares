@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './hooks/layouts/PrivateRoute'; // OK
 import Dashboard from './hooks/layouts/Dashboard'; // OK 
+import ListSupplier from './features/supplier/ListSupplier';
+
 
 // --- CORREÇÕES DE IMPORTAÇÃO ---
 
@@ -54,7 +56,8 @@ function AppRoutes() {
 
           {/* Fornecedores */}
           {/* O componente RegisterSupplier JÁ FOI IMPORTADO */}
-          <Route path="fornecedores" element={<RegisterSupplier />} />
+          <Route path="fornecedores" element={<ListSupplier />} />
+          <Route path="fornecedores/cadastrar" element={<RegisterSupplier />} />
 
           {/* Vendedores */}
           {/* O componente RegisterSeller JÁ FOI IMPORTADO */}
