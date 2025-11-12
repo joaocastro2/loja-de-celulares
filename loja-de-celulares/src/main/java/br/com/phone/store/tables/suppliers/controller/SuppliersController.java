@@ -40,3 +40,5 @@ public class SuppliersController {
         return ResponseEntity.ok(suppliersQuery);
     }
 }
+
+//correction
