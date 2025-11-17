@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -26,19 +25,19 @@ public class SuppliersController {
         return ResponseEntity.ok(saved);
     }
 
+    // SuppliersController.java (Versão que exige token e valida)
     @GetMapping
     public ResponseEntity<List<SuppliersModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token) {
-        // Apenas um exemplo: aqui você poderia validar o token JWT
+
+        // Se o token for obrigatório para o acesso:
         if (token == null || !token.startsWith("Bearer ")) {
-            return ResponseEntity.status(403).build(); // Forbidden
+            return ResponseEntity.status(401).build(); // 401 Unauthorized
         }
 
-        // Se quiser, você pode validar o JWT aqui usando sua lógica
-        // Ex: JwtUtils.validateToken(token)
+        // AQUI ENTRARIA A LÓGICA DE VALIDAÇÃO REAL DO SEU TOKEN JWT
+        // Se o token for inválido, também retorne 401
 
         List<SuppliersModel> suppliersQuery = suppliersRepository.findAll();
         return ResponseEntity.ok(suppliersQuery);
     }
 }
-
-//correction
