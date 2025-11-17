@@ -1,7 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaTruck, FaSpinner, FaSyncAlt } from 'react-icons/fa';
 
-const SuppliersList = () => {
+// URL base do seu SuppliersController
+const API_URL = 'http://localhost:8080/suppliers';
+
+// CHAVE DE ARMAZENAMENTO CORRETA (Conforme seu Login.jsx)
+const TOKEN_STORAGE_KEY = 'token'; 
+
+// --- Componente Auxiliar (Cabeçalho da Tabela) ---
+
+const TableHead = ({ text, className = '' }) => (
+  <th
+    scope="col"
+    className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}
+  >
+    {text}
+  </th>
+);
+
+// --- Componente Principal ---
+
+const ListSupplier = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,11 +30,41 @@ const SuppliersList = () => {
   const fetchSuppliers = async () => {
     setLoading(true);
     setError(null);
+    
+    // 1. Obtém o token (sem bloqueio de execução)
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY); 
+    
+    // Removido o bloco `if (!token) { setError(...); return; }`
+    // Agora o Front-end enviará a requisição mesmo sem token. O Back-end responderá com 403 se necessário.
+
     try {
-      const response = await axios.get('http://localhost:8080/suppliers');
+      // 2. Envia a requisição com o cabeçalho Authorization (se o token existir)
+      const response = await axios.get(API_URL, {
+        headers: {
+          ...(token && { 'Authorization': `Bearer ${token}` }), // Adiciona Authorization se token existir
+        },
+      });
+      
+      // 🚨 PASSO CRÍTICO: VERIFICAR NOMES DOS CAMPOS NO CONSOLE
+      console.log('JSON Recebido do Servidor (VERIFIQUE OS NOMES DOS CAMPOS!):', response.data); 
+      
       setSuppliers(response.data);
+      
     } catch (err) {
-      setError('Erro ao carregar fornecedores.');
+      console.error('Erro ao carregar fornecedores:', err);
+      
+      if (err.response) {
+          // Trata erros de Back-end (401/403)
+          if (err.response.status === 401 || err.response.status === 403) {
+              setError('Acesso negado pelo servidor. Verifique se o login foi feito e se o token é válido.');
+          } else {
+              setError(`Erro do servidor (${err.response.status}): Falha na requisição.`);
+          }
+      } else if (err.request) {
+          setError('Erro de conexão: O servidor pode estar offline ou inacessível.');
+      } else {
+          setError('Ocorreu um erro desconhecido.');
+      }
     } finally {
       setLoading(false);
     }
@@ -24,62 +74,93 @@ const SuppliersList = () => {
     fetchSuppliers();
   }, []);
 
+  // --- Renderização Condicional ---
+
   if (loading) {
-    return <p>Carregando fornecedores...</p>;
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-50">
+        <FaSpinner className="animate-spin text-gray-500 text-5xl mb-4" />
+        <p className="text-gray-600 text-lg">Carregando fornecedores...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p style={{ color: 'red' }}>{error}</p>;
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-50 text-gray-700">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md border border-gray-200">
+          <p className="font-bold text-lg mb-2 text-red-600">Erro de Carregamento</p>
+          <p>{error}</p>
+          <button
+            onClick={fetchSuppliers}
+            className="mt-4 flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md transition duration-150"
+          >
+            <FaSyncAlt className="mr-2" /> Tentar Novamente
+          </button>
+        </div>
+      </div>
+    );
   }
 
-  if (suppliers.length === 0) {
-    return <p>Nenhum fornecedor encontrado.</p>;
-  }
+  // --- Renderização da Lista ---
 
   return (
-    <div>
-      <h2>Lista de Fornecedores</h2>
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-        <thead>
-          <tr>
-            <th style={thStyle}>ID</th>
-            <th style={thStyle}>Nome</th>
-            <th style={thStyle}>CNPJ</th>
-            <th style={thStyle}>Telefone</th>
-            <th style={thStyle}>E-mail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {suppliers.map((supplier) => (
-            <tr key={supplier.id} style={trStyle}>
-              <td style={tdStyle}>{supplier.id}</td>
-              <td style={tdStyle}>{supplier.name}</td>
-              <td style={tdStyle}>{supplier.cnpj}</td>
-              <td style={tdStyle}>{supplier.phone}</td>
-              <td style={tdStyle}>{supplier.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-700 flex items-center mb-4 sm:mb-0">
+            <FaTruck className="mr-3 w-6 h-6 text-gray-500" />
+            Lista de Fornecedores ({suppliers.length})
+          </h1>
+
+          <button
+            onClick={fetchSuppliers}
+            className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md shadow-sm transition duration-200"
+          >
+            <FaSyncAlt className="mr-2" /> Atualizar Lista
+          </button>
+        </div>
+
+        {suppliers.length === 0 ? (
+          <div className="p-6 text-center bg-gray-100 border border-gray-300 text-gray-600 rounded-lg shadow-sm">
+            <p className="font-bold">Nenhum Fornecedor Encontrado</p>
+            <p>A lista de fornecedores está vazia.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <TableHead text="ID" />
+                  <TableHead text="Nome" />
+                  <TableHead text="EIN" />
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-100">
+                {suppliers.map((supplier) => (
+                  <tr
+                    key={supplier.supplierId} 
+                    className="hover:bg-gray-50 transition duration-100"
+                  >
+                    {/* 💡 ESTES SÃO OS PONTOS A SEREM CORRIGIDOS */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate max-w-xs">
+                      {supplier.supplierId}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {supplier.supplierName} 
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {supplier.supplierEIN}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-// Estilos inline simples
-const thStyle = {
-  border: '1px solid #ddd',
-  padding: '8px',
-  backgroundColor: '#f2f2f2',
-  textAlign: 'left',
-};
-
-const tdStyle = {
-  border: '1px solid #ddd',
-  padding: '8px',
-};
-
-const trStyle = {
-  borderBottom: '1px solid #ddd',
-};
-
-export default SuppliersList;
+export default ListSupplier;

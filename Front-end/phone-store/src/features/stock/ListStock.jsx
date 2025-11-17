@@ -134,7 +134,7 @@ const Estoque = () => {
                       {formatPrice(item.price_in_cents)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 truncate max-w-xs">
-                      {item.supplierId?.id || 'N/A'}
+                      {item.supplierId?.supplierId || 'N/A'}
                     </td>
                   </tr>
                 ))}
