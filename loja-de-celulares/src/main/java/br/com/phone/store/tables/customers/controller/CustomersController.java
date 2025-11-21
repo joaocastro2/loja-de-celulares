@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * REST controller responsible for handling customer-related operations.
  *
@@ -38,4 +40,15 @@ public class CustomersController {
         CustomersModel saved = customersRepository.save(customersModel);
         return ResponseEntity.ok(saved);
     }
+
+    @GetMapping
+    public ResponseEntity<List<CustomersModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token) {
+        if (token == null || !token.startsWith("Bearer" )){
+            return ResponseEntity.status(401).build();
+        }
+
+        List<CustomersModel> customersQuerry = customersRepository.findAll();
+        return ResponseEntity.ok(customersQuerry);
+    }
+
 }
