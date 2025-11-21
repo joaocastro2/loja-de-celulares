@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * REST controller responsible for handling seller-related operations.
  *
@@ -38,4 +40,14 @@ public class SellersController {
         SellersModel saved = sellersRepository.save(sellersModel);
         return ResponseEntity.ok(saved);
     }
+
+    @GetMapping
+    public ResponseEntity<List<SellersModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token){
+        if (token == null || !token.startsWith("Bearer ")){
+            return ResponseEntity.status(401).build();
+        }
+        List<SellersModel> sellersQuery = sellersRepository.findAll();
+        return ResponseEntity.ok(sellersQuery);
+    }
+
 }
