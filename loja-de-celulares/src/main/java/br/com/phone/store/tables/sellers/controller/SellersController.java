@@ -41,6 +41,11 @@ public class SellersController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     *
+     * @param token (Token validation for request permission)
+     * @return Retrieves All Sellers.
+     */
     @GetMapping
     public ResponseEntity<List<SellersModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token){
         if (token == null || !token.startsWith("Bearer ")){
