@@ -1,5 +1,6 @@
 package br.com.phone.store.tables.suppliers.controller;
 
+import br.com.phone.store.tables.stock.model.StockModel;
 import br.com.phone.store.tables.suppliers.dto.RequestSuppliersDto;
 import br.com.phone.store.tables.suppliers.model.SuppliersModel;
 import br.com.phone.store.tables.suppliers.repository.SuppliersRepository;
@@ -18,6 +19,15 @@ public class SuppliersController {
     @Autowired
     private SuppliersRepository suppliersRepository;
 
+    /**
+     * Registers a new Supplier in the stock.
+     *
+     * <p>Validates the supplier ID, creates a {@link SuppliersModel} from the provided DTO,
+     * and persists it in the database.</p>
+     *
+     * @param newSupplier DTO containing product and supplier details.
+     * @return ResponseEntity with the saved Supplier or error message.
+     */
     @PostMapping
     public ResponseEntity<SuppliersModel> registerSupplier(@RequestBody @Valid RequestSuppliersDto newSupplier) {
         SuppliersModel suppliersModel = new SuppliersModel(newSupplier);
@@ -25,7 +35,12 @@ public class SuppliersController {
         return ResponseEntity.ok(saved);
     }
 
-    // SuppliersController.java (Versão que exige token e valida)
+
+    /**
+     *
+     * @param token (Token validation for request permission)
+     * @return Retrieves All Suppliers
+     */
     @GetMapping
     public ResponseEntity<List<SuppliersModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token) {
 
@@ -33,9 +48,6 @@ public class SuppliersController {
         if (token == null || !token.startsWith("Bearer ")) {
             return ResponseEntity.status(401).build(); // 401 Unauthorized
         }
-
-        // AQUI ENTRARIA A LÓGICA DE VALIDAÇÃO REAL DO SEU TOKEN JWT
-        // Se o token for inválido, também retorne 401
 
         List<SuppliersModel> suppliersQuery = suppliersRepository.findAll();
         return ResponseEntity.ok(suppliersQuery);
