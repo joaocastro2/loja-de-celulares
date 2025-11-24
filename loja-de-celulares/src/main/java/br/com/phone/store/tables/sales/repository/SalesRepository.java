@@ -3,6 +3,8 @@ package br.com.phone.store.tables.sales.repository;
 import br.com.phone.store.tables.sales.model.SalesModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repository interface for managing {@link SalesModel} entities.
  *
@@ -12,4 +14,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * <p>Spring Data JPA automatically implements this interface, enabling
  * seamless interaction with the database without the need for boilerplate code.</p>
  */
-public interface SalesRepository extends JpaRepository<SalesModel, Integer> {}
+public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
+
+    List<SalesModel> findAll();
+
+}

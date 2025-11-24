@@ -2,9 +2,12 @@ package br.com.phone.store.tables.sales.controller;
 
 import br.com.phone.store.tables.sales.dto.RequestSalesDto;
 import br.com.phone.store.tables.sales.model.SalesModel;
+import br.com.phone.store.tables.sales.repository.SalesRepository;
 import br.com.phone.store.tables.sales.service.SalesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * REST controller responsible for handling sales-related operations.
@@ -23,6 +26,8 @@ public class SalesController {
      * Service layer responsible for processing sales logic.
      */
     private final SalesService salesService;
+
+    private SalesRepository salesRepository;
 
     /**
      * Constructs a {@code SalesController} with the required {@link SalesService}.
@@ -46,6 +51,21 @@ public class SalesController {
     public ResponseEntity<SalesModel> createSale(@RequestBody RequestSalesDto dto) {
         SalesModel sale = salesService.createSale(dto);
         return ResponseEntity.ok(sale);
+    }
+
+    /**
+     * Retrieves all sales.
+     * @param token (Token validation for request permission)
+     * @return ResponseEntity with the retrieved {@link SalesModel}.
+     */
+    @GetMapping
+    public ResponseEntity<List<SalesModel>> findAll(@RequestHeader(name = "Authorization", required = false) String token){
+        if (token == null || !token.startsWith("Bearer ")){
+            return ResponseEntity.status(401).build();
+        }
+
+        List<SalesModel> salesQuery = salesRepository.findAll();
+        return ResponseEntity.ok(salesQuery);
     }
 
     /**
