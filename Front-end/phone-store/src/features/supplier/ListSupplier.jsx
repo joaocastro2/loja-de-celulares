@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaTruck, FaSpinner, FaSyncAlt } from 'react-icons/fa';
 
-// URL base do seu SuppliersController
 const API_URL = 'http://localhost:8080/suppliers';
+const TOKEN_STORAGE_KEY = 'token';
 
-// CHAVE DE ARMAZENAMENTO CORRETA (Conforme seu Login.jsx)
-const TOKEN_STORAGE_KEY = 'token'; 
-
-// --- Componente Auxiliar (Cabeçalho da Tabela) ---
-
+// Cabeçalhos da tabela
 const TableHead = ({ text, className = '' }) => (
   <th
     scope="col"
@@ -19,51 +15,36 @@ const TableHead = ({ text, className = '' }) => (
   </th>
 );
 
-// --- Componente Principal ---
-
 const ListSupplier = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Função para buscar fornecedores
   const fetchSuppliers = async () => {
     setLoading(true);
     setError(null);
-    
-    // 1. Obtém o token (sem bloqueio de execução)
-    const token = localStorage.getItem(TOKEN_STORAGE_KEY); 
-    
-    // Removido o bloco `if (!token) { setError(...); return; }`
-    // Agora o Front-end enviará a requisição mesmo sem token. O Back-end responderá com 403 se necessário.
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
 
     try {
-      // 2. Envia a requisição com o cabeçalho Authorization (se o token existir)
       const response = await axios.get(API_URL, {
         headers: {
-          ...(token && { 'Authorization': `Bearer ${token}` }), // Adiciona Authorization se token existir
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
       });
-      
-      // 🚨 PASSO CRÍTICO: VERIFICAR NOMES DOS CAMPOS NO CONSOLE
-      console.log('JSON Recebido do Servidor (VERIFIQUE OS NOMES DOS CAMPOS!):', response.data); 
-      
+      console.log('JSON Recebido do Servidor:', response.data);
       setSuppliers(response.data);
-      
     } catch (err) {
       console.error('Erro ao carregar fornecedores:', err);
-      
       if (err.response) {
-          // Trata erros de Back-end (401/403)
-          if (err.response.status === 401 || err.response.status === 403) {
-              setError('Acesso negado pelo servidor. Verifique se o login foi feito e se o token é válido.');
-          } else {
-              setError(`Erro do servidor (${err.response.status}): Falha na requisição.`);
-          }
+        if (err.response.status === 401 || err.response.status === 403) {
+          setError('Acesso negado pelo servidor. Verifique se o login foi feito e se o token é válido.');
+        } else {
+          setError(`Erro do servidor (${err.response.status}): Falha na requisição.`);
+        }
       } else if (err.request) {
-          setError('Erro de conexão: O servidor pode estar offline ou inacessível.');
+        setError('Erro de conexão: O servidor pode estar offline ou inacessível.');
       } else {
-          setError('Ocorreu um erro desconhecido.');
+        setError('Ocorreu um erro desconhecido.');
       }
     } finally {
       setLoading(false);
@@ -73,8 +54,6 @@ const ListSupplier = () => {
   useEffect(() => {
     fetchSuppliers();
   }, []);
-
-  // --- Renderização Condicional ---
 
   if (loading) {
     return (
@@ -93,7 +72,7 @@ const ListSupplier = () => {
           <p>{error}</p>
           <button
             onClick={fetchSuppliers}
-            className="mt-4 flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md transition duration-150"
+            className="mt-4 flex items-center justify-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-md transition duration-150"
           >
             <FaSyncAlt className="mr-2" /> Tentar Novamente
           </button>
@@ -101,8 +80,6 @@ const ListSupplier = () => {
       </div>
     );
   }
-
-  // --- Renderização da Lista ---
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -115,7 +92,7 @@ const ListSupplier = () => {
 
           <button
             onClick={fetchSuppliers}
-            className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md shadow-sm transition duration-200"
+            className="flex items-center justify-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-md shadow-sm transition duration-200"
           >
             <FaSyncAlt className="mr-2" /> Atualizar Lista
           </button>
@@ -134,23 +111,27 @@ const ListSupplier = () => {
                   <TableHead text="ID" />
                   <TableHead text="Nome" />
                   <TableHead text="EIN" />
+                  <TableHead text="Ativo" /> {/* nova coluna */}
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
                 {suppliers.map((supplier) => (
-                  <tr
-                    key={supplier.supplierId} 
-                    className="hover:bg-gray-50 transition duration-100"
-                  >
-                    {/* 💡 ESTES SÃO OS PONTOS A SEREM CORRIGIDOS */}
+                  <tr key={supplier.supplierId} className="hover:bg-gray-50 transition duration-100">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate max-w-xs">
                       {supplier.supplierId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {supplier.supplierName} 
+                      {supplier.supplierName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {supplier.supplierEIN}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {supplier.active ? (
+                        <span className="text-green-600 font-semibold">Ativo</span>
+                      ) : (
+                        <span className="text-red-600 font-semibold">Inativo</span>
+                      )}
                     </td>
                   </tr>
                 ))}
