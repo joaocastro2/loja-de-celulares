@@ -47,8 +47,8 @@ public class CustomersController {
             return ResponseEntity.status(401).build();
         }
 
-        List<CustomersModel> customersQuerry = customersRepository.findAll();
-        return ResponseEntity.ok(customersQuerry);
+        List<CustomersModel> customersQuery = customersRepository.findAll();
+        return ResponseEntity.ok(customersQuery);
     }
 
 }
