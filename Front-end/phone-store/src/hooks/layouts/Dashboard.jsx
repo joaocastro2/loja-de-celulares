@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   FaHome,
@@ -12,11 +12,7 @@ import {
 } from 'react-icons/fa';
 
 const navGroups = [
-  {
-    name: 'Início',
-    icon: FaHome,
-    path: '/app/home',
-  },
+  { name: 'Início', icon: FaHome, path: '/app/home' },
   {
     name: 'Estoque',
     icon: FaBox,
@@ -30,21 +26,23 @@ const navGroups = [
     icon: FaUsers,
     subItems: [
       { name: 'Cadastrar Cliente', path: '/app/clientes' },
+      { name: 'Listar Clientes', path: '/app/clientes/listar' },
     ],
   },
   {
-  name: 'Fornecedores',
-  icon: FaUserTie,
-  subItems: [
-    { name: 'Listar Fornecedores', path: '/app/fornecedores' },
-    { name: 'Cadastrar Fornecedor', path: '/app/fornecedores/cadastrar' },
-  ],
+    name: 'Fornecedores',
+    icon: FaUserTie,
+    subItems: [
+      { name: 'Listar Fornecedores', path: '/app/fornecedores' },
+      { name: 'Cadastrar Fornecedor', path: '/app/fornecedores/cadastrar' },
+    ],
   },
   {
     name: 'Vendedores',
     icon: FaUserTie,
     subItems: [
       { name: 'Cadastrar Vendedor', path: '/app/vendedores' },
+      { name: 'Listar Vendedores', path: '/app/vendedores/listar' },
     ],
   },
 ];
@@ -54,13 +52,18 @@ const Dashboard = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState(null);
+  const [userName, setUserName] = useState('Usuário');
+
+  useEffect(() => {
+    const storedName = localStorage.getItem('userName'); // mesma chave usada no Login.jsx
+    if (storedName) setUserName(storedName);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     navigate('/', { replace: true });
   };
-
-  const userName = localStorage.getItem('user_name') || 'Usuário';
 
   const toggleGroup = (groupName) => {
     setOpenGroup(openGroup === groupName ? null : groupName);
@@ -69,19 +72,18 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Overlay Mobile */}
-      <div
-        className={`fixed inset-0 bg-gray-900 bg-opacity-50 z-20 md:hidden transition-opacity duration-200 ${
-          sidebarOpen ? 'opacity-100 block' : 'opacity-0 hidden'
-        }`}
-        onClick={() => setSidebarOpen(false)}
-      ></div>
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-20 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
-      <div
-        className={`flex flex-col w-64 bg-white border-r border-gray-200 shadow-sm transition-all duration-300 z-30
-        ${sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full md:translate-x-0 md:static ease-in'}`}
+      <aside
+        className={`flex flex-col w-64 bg-white border-r border-gray-200 shadow-sm transition-transform duration-300 z-30
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0 md:static'}`}
       >
-        {/* Cabeçalho */}
         <div className="flex items-center justify-between h-16 px-4 bg-gray-50 border-b border-gray-200">
           <span className="text-lg font-semibold text-gray-700">Phone Store</span>
           <button className="text-gray-500 md:hidden" onClick={() => setSidebarOpen(false)}>
@@ -89,7 +91,6 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Menu */}
         <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
           {navGroups.map((group) => (
             <div key={group.name}>
@@ -133,7 +134,6 @@ const Dashboard = () => {
           ))}
         </nav>
 
-        {/* Logout */}
         <div className="p-4 border-t border-gray-200">
           <button
             onClick={handleLogout}
@@ -142,7 +142,7 @@ const Dashboard = () => {
             <FaSignOutAlt className="mr-2" /> Sair
           </button>
         </div>
-      </div>
+      </aside>
 
       {/* Conteúdo */}
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -165,4 +165,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-/* Commit correction */

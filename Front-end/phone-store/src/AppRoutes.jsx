@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './hooks/layouts/PrivateRoute'; // OK
 import Dashboard from './hooks/layouts/Dashboard'; // OK 
-import ListSupplier from './features/supplier/ListSupplier';
 
 
 // --- CORREÇÕES DE IMPORTAÇÃO ---
@@ -16,8 +15,11 @@ import Home from './features/dashboard/HomePage';
 import ListStock from './features/stock/ListStock';
 import RegisterStock from './features/stock/RegisterStock';
 import RegisterSupplier from './features/supplier/RegisterSupplier';
+import ListSupplier from './features/supplier/ListSupplier';
 import RegisterCustomers from './features/customers/RegisterCustomers';
+import ListCustomer from './features/customers/ListCustomer';
 import RegisterSeller from './features/seller/RegisterSeller';
+import ListSeller from './features/seller/ListSeller'
 
 
 // --- NOVAS IMPORTAÇÕES NECESSÁRIAS ---
@@ -53,6 +55,7 @@ function AppRoutes() {
           {/* Clientes */}
           {/* Estava: <Route path="clientes" element={<CadastrarClientes />} /> */}
           <Route path="clientes" element={<RegisterCustomers />} />
+          <Route path="clientes/listar" element={<ListCustomer />} />
 
           {/* Fornecedores */}
           {/* O componente RegisterSupplier JÁ FOI IMPORTADO */}
@@ -62,6 +65,7 @@ function AppRoutes() {
           {/* Vendedores */}
           {/* O componente RegisterSeller JÁ FOI IMPORTADO */}
           <Route path="vendedores" element={<RegisterSeller />} />
+          <Route path="vendedores/listar" element={<ListSeller />} />
         </Route>
       </Route>
     </Routes>
