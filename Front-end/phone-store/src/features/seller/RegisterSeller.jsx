@@ -13,6 +13,10 @@ const CadastrarVendedores = () => {
     ativo: true,
   });
 
+  const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'ssn' && value.length > 9) return;
@@ -21,9 +25,14 @@ const CadastrarVendedores = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
+    setIsError(false);
+    setLoading(true);
 
     if (formData.ssn.length !== 9) {
-      alert('O SSN deve ter exatamente 9 dígitos.');
+      setMessage('O SSN deve ter exatamente 9 dígitos.');
+      setIsError(true);
+      setLoading(false);
       return;
     }
 
@@ -44,16 +53,33 @@ const CadastrarVendedores = () => {
         },
       });
 
-      alert(`Vendedor cadastrado com sucesso! ID: ${response.data.sellerId}`);
+      setMessage(
+        `Vendedor "${response.data.sellerName || payload.sellerName}" cadastrado com sucesso! ID: ${response.data.sellerId || 'não retornado'}`
+      );
+      setIsError(false);
       setFormData({ nome: '', ssn: '', email: '', comissao: '', ativo: true });
     } catch (error) {
       console.error(error);
-      alert('Erro ao cadastrar vendedor.');
+      setMessage('Erro ao cadastrar vendedor. Verifique o console para detalhes.');
+      setIsError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+      {/* MENSAGEM DE FEEDBACK */}
+      {message && (
+        <div
+          className={`p-4 mb-4 rounded-lg shadow-md ${
+            isError ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       {/* Título com ícone */}
       <h2 className="text-xl font-bold mb-4 text-gray-700 flex items-center">
         <FaUserTie className="mr-2 text-gray-500" /> Cadastrar Vendedor
@@ -107,9 +133,14 @@ const CadastrarVendedores = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded shadow-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          disabled={loading}
+          className={`w-full py-2 rounded shadow-sm text-white font-medium transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            loading
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500'
+          }`}
         >
-          Salvar Vendedor
+          {loading ? 'Cadastrando...' : 'Salvar Vendedor'}
         </button>
       </form>
     </div>
