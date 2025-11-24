@@ -1,9 +1,8 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock } from 'react-icons/fa';
+import { FaUser, FaLock, FaChartPie } from 'react-icons/fa';
 import axios from 'axios';
-import { FaChartPie } from 'react-icons/fa'; // Ícone de dashboard
 
 const API_BASE_URL = 'http://localhost:8080/auth/login';
 const TOKEN_STORAGE_KEY = 'token';
@@ -24,8 +23,11 @@ const Login = () => {
 
     try {
       const response = await axios.post(API_BASE_URL, { email, password });
-      const { token } = response.data;
+
+      const { token, userName } = response.data; // backend retorna userName + token
       localStorage.setItem(TOKEN_STORAGE_KEY, token);
+      localStorage.setItem('userName', userName); // salva nome do usuário
+
       navigate('/app/home', { replace: true });
     } catch (err) {
       if (err.response) setError(err.response.data || 'E-mail ou senha incorretos.');
@@ -39,10 +41,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      
       <div className="w-full max-w-4xl bg-gray-50 rounded-xl shadow-lg flex overflow-hidden">
         
-        {/* Lado esquerdo - ícone ou imagem de gestão */}
+        {/* Lado esquerdo */}
         <div className="hidden md:flex w-1/2 bg-gray-200 items-center justify-center p-8">
           <div className="text-gray-700 text-center">
             <FaChartPie className="text-7xl mx-auto mb-4" />
@@ -56,16 +57,13 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Bem-vindo de volta</h2>
           <p className="text-center text-gray-500 mb-6">Faça login para acessar o sistema</p>
 
-          {/* Erro */}
           {error && (
             <div className="bg-red-100 border border-red-300 text-red-700 px-4 py-2 rounded mb-4 text-sm">
               {error}
             </div>
           )}
 
-          {/* Formulário */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                 <FaUser />
@@ -80,7 +78,6 @@ const Login = () => {
               />
             </div>
 
-            {/* Senha */}
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                 <FaLock />
@@ -95,21 +92,17 @@ const Login = () => {
               />
             </div>
 
-            {/* Botão */}
             <button
               type="submit"
               disabled={loading}
               className={`w-full py-2 rounded-lg font-semibold text-white transition duration-200 ${
-                loading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gray-700 hover:bg-gray-600'
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-700 hover:bg-gray-600'
               }`}
             >
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
 
-          {/* Rodapé */}
           <div className="text-center text-sm mt-4 text-gray-500">
             <a href="#" className="hover:text-gray-700">Esqueceu sua senha?</a>
           </div>
