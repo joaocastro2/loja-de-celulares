@@ -106,7 +106,6 @@ const Estoque = () => {
                 <tr>
                   <TableHead text="ID" />
                   <TableHead text="Produto" />
-                  <TableHead text="Descrição" />
                   <TableHead text="Quantidade" className="text-right" />
                   <TableHead text="Preço Unitário" className="text-right" />
                   <TableHead text="Fornecedor ID" />
@@ -123,9 +122,6 @@ const Estoque = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {item.productName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {item.description || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-gray-700">
                       {item.amount}
