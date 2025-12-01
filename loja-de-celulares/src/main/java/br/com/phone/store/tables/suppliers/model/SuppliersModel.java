@@ -25,7 +25,8 @@ public class SuppliersModel {
      * Auto-generated using UUID strategy.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "suppliers_seq")
+    @SequenceGenerator(name = "suppliers_seq", sequenceName = "suppliers_seq", allocationSize = 1)
     @Column(name = "supplier_id")
     private UUID supplierId;
 
