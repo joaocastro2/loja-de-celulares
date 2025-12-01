@@ -30,7 +30,8 @@ public class StockModel {
      * Auto-generated using UUID strategy.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stock_seq")
+    @SequenceGenerator(name = "stock_seq", sequenceName = "stock_seq", allocationSize = 1)
     @Column(name = "product_id")
     private UUID productId;
 
