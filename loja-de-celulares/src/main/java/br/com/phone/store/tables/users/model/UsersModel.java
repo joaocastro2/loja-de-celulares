@@ -41,8 +41,8 @@ public class UsersModel {
      * User's identification number (e.g., CPF).
      * Cannot be null.
      */
-    @Column(name = "user_ssn", nullable = false)
-    private String userSsn;
+    @Column(name = "user_cpf", nullable = false)
+    private String userCpf;
 
     /**
      * User's email address.

@@ -43,7 +43,7 @@ public class AuthController {
             newUser.setUserPassword(passwordEncoder.encode(body.userPassword()));
             newUser.setUserEmail(body.userEmail());
             newUser.setUserName(body.userName());
-            newUser.setUserSsn(body.userSsn());
+            newUser.setUserCpf(body.userCpf());
             this.repository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
