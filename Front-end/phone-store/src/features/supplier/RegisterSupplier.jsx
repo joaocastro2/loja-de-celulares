@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080/suppliers';
 const CadastrarFornecedor = () => {
   const [formData, setFormData] = useState({
     supplierName: '',
-    supplierEIN: '',
+    supplierCpf: '',
     active: true,
   });
 
@@ -19,7 +19,7 @@ const CadastrarFornecedor = () => {
     const { name, value } = e.target;
 
     // Limite de 9 dígitos para CNPJ
-    if (name === 'supplierCpf' && value.length > 11) return;
+    if (name === 'supplierCpf' && value.length > 14) return;
 
     setFormData({ ...formData, [name]: value });
   };
@@ -30,9 +30,9 @@ const CadastrarFornecedor = () => {
     setIsError(false);
     setLoading(true);
 
-    // Validação do CNPJ (11 dígitos)
-    if (formData.supplierCpf.length !== 11) {
-      setMessage('O CNPJ deve ter exatamente 11 dígitos.');
+    // Validação do CNPJ (14 dígitos)
+    if (formData.supplierCnpj.length !== 14) {
+      setMessage('O CNPJ deve ter exatamente 14 dígitos.');
       setIsError(true);
       setLoading(false);
       return;
@@ -52,7 +52,7 @@ const CadastrarFornecedor = () => {
         `Fornecedor "${response.data.supplierName || formData.supplierName}" cadastrado com sucesso! ID: ${supplierId || 'não retornado'}`
       );
       setIsError(false);
-      setFormData({ supplierName: '', supplierCpf: '', active: true });
+      setFormData({ supplierName: '', supplierCnpj: '', active: true });
     } catch (error) {
       console.error(error);
       setMessage('Erro ao cadastrar fornecedor. Verifique o console para detalhes.');
@@ -99,12 +99,12 @@ const CadastrarFornecedor = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            CNPJ (11 dígitos)
+            CNPJ (14 dígitos)
           </label>
           <input
             type="number"
-            name="supplierCpf"
-            value={formData.supplierCpf}
+            name="supplierCnpj"
+            value={formData.supplierCnpj}
             onChange={handleChange}
             required
             placeholder="Ex: 12345678910"

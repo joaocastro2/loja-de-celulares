@@ -1,7 +1,7 @@
 CREATE TABLE sales(
-    sale_id INT PRIMARY KEY UNIQUE NOT NULL DEFAULT nextval('sales_seq'),
-    customer_id INT NOT NULL,
-    seller_id INT NOT NULL,
+    sale_id INTEGER PRIMARY KEY UNIQUE NOT NULL DEFAULT nextval('sales_seq'),
+    customer_id INTEGER NOT NULL,
+    seller_id INTEGER NOT NULL,
     sale_date DATE NOT NULL,
     total_amount DECIMAL(10,2) NOT NULL,
 

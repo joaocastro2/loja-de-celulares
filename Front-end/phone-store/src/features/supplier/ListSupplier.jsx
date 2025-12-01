@@ -110,7 +110,7 @@ const ListSupplier = () => {
                 <tr>
                   <TableHead text="ID" />
                   <TableHead text="Nome" />
-                  <TableHead text="CPF" />
+                  <TableHead text="CNPJ" />
                   <TableHead text="Ativo" />
                 </tr>
               </thead>
@@ -124,7 +124,7 @@ const ListSupplier = () => {
                       {supplier.supplierName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {supplier.supplierCpf}
+                      {supplier.supplierCnpj}
                     </td>
                     <td className="px-6 py-4 text-sm">
                       {supplier.active ? (
