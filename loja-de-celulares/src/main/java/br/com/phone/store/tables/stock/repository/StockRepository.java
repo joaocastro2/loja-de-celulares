@@ -4,7 +4,6 @@ import br.com.phone.store.tables.stock.model.StockModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Repository interface for managing {@link StockModel} entities.
@@ -15,8 +14,7 @@ import java.util.UUID;
  * <p>Used primarily for search and filtering operations, which are implemented
  * and exposed through the controller layer.</p>
  */
-public interface StockRepository extends JpaRepository<StockModel, UUID> {
-
+public interface StockRepository extends JpaRepository<StockModel, Integer> {
     /**
      * Retrieves all products that are currently marked as active.
      *

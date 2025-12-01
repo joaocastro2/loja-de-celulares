@@ -4,8 +4,8 @@ import br.com.phone.store.tables.stock.dto.RequestStockDto;
 import br.com.phone.store.tables.suppliers.model.SuppliersModel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.yaml.snakeyaml.events.Event;
 
-import java.util.UUID;
 
 /**
  * Entity class representing a product in the stock system of the phone store.
@@ -27,13 +27,13 @@ public class StockModel {
 
     /**
      * Unique identifier for the product.
-     * Auto-generated using UUID strategy.
+     * Auto-generated using SEQUENCE strategy.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stock_seq")
     @SequenceGenerator(name = "stock_seq", sequenceName = "stock_seq", allocationSize = 1)
     @Column(name = "product_id")
-    private UUID productId;
+    private Integer productId;
 
     /**
      * Name of the product.

@@ -1,5 +1,7 @@
 package br.com.phone.store.tables.sale_items.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+
 import java.util.UUID;
 
 /**
@@ -15,7 +17,7 @@ import java.util.UUID;
  * @param saleItemsUnitPrice Unit price of the product at the time of sale (optional).
  */
 public record RequestSaleItemsDto(
-        UUID productId,
+        Integer productId,
         Integer saleItemsQtty,
         Double saleItemsUnitPrice
 ) {}

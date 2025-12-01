@@ -44,30 +44,39 @@ public class StockController {
     @PostMapping
     public ResponseEntity<?> registerProduct(@RequestBody @Valid RequestStockDto newProduct) {
         try {
-            SuppliersModel supplier = getSupplierOrThrow(newProduct.supplier_id());
+            // Conversão de String para Integer no supplier_id
+            SuppliersModel supplier = getSupplierOrThrow(Integer.valueOf(newProduct.supplier_id()));
             StockModel stockModel = new StockModel(newProduct, supplier);
             stockRepository.save(stockModel);
             return ResponseEntity.ok(stockModel);
-        } catch (IllegalArgumentException e) {
+        } catch (NumberFormatException e) {
+            // Captura falhas na conversão de String para Integer
             return ResponseEntity.badRequest().body("supplier_id inválido ou malformado.");
         } catch (RuntimeException e) {
+            // Captura erro de fornecedor não encontrado (lançado pelo getSupplierOrThrow)
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     /**
-     * Retrieves products by exact product name (case-insensitive).
+     * Retrieves a product by its exact ID.
      *
-     * @param product_id Product name used as identifier.
-     * @return ResponseEntity with matching products or 404 if none found.
+     * @param product_id Product ID (Integer) used as identifier.
+     * @return ResponseEntity with the matching product or 404 if none found.
      */
     @GetMapping("/id/{product_id}")
-    public ResponseEntity<List<StockModel>> findById(@PathVariable String product_id) {
-        List<StockModel> productById = stockRepository.findByProductNameIgnoreCase(product_id);
+    // 🔑 CORREÇÃO: Altera o retorno para StockModel, pois ID é único
+    public ResponseEntity<StockModel> findById(@PathVariable Integer product_id) {
+        // 🔑 CORREÇÃO: stockRepository.findById(ID) retorna Optional<StockModel>
+        Optional<StockModel> productById = stockRepository.findById(product_id);
+
+        // Trata o Optional
         if (productById.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(productById);
+
+        // Retorna a entidade StockModel desembrulhada
+        return ResponseEntity.ok(productById.get());
     }
 
     /**
@@ -103,13 +112,13 @@ public class StockController {
     /**
      * Helper method to retrieve a supplier by ID or throw an exception if not found.
      *
-     * @param supplierId Supplier UUID as a string.
+     * @param supplierId Supplier INTEGER.
      * @return The {@link SuppliersModel} entity.
      * @throws RuntimeException if the supplier is not found.
      */
-    private SuppliersModel getSupplierOrThrow(String supplierId) {
-        UUID uuid = UUID.fromString(supplierId);
-        return supplierRepository.findById(uuid)
+    private SuppliersModel getSupplierOrThrow(Integer supplierId) {
+        // O helper está correto, usa findById que retorna Optional.
+        return supplierRepository.findById(supplierId)
                 .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
     }
 }

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.UUID;
 
 /**
  * Data Transfer Object (DTO) used to receive product stock information from the user.
@@ -18,12 +17,12 @@ import java.util.UUID;
  * @param product_name Name of the product. Must not be blank.
  * @param price_in_cents Product price expressed in cents. Must not be null.
  * @param amount Quantity of the product available in stock (optional).
- * @param supplier_id UUID of the supplier providing the product. Must not be blank.
+ * @param supplier_id Integer of the supplier providing the product. Must not be blank.
  * @param active Indicates whether the product is currently active (optional).
  */
 public record RequestStockDto(
 
-        UUID product_id,
+        Integer product_id,
 
         @NotBlank(message = "O nome do produto não pode estar vazio.")
         String product_name,

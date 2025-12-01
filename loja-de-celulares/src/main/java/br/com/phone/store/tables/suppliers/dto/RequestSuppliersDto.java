@@ -15,11 +15,11 @@ import java.util.UUID;
  * <p>Validation annotations ensure that required fields are properly filled before processing.</p>
  *
  * @param supplierName Name of the supplier. Must not be blank.
- * @param supplierCpf Employer Identification Number (EIN) or equivalent tax ID. Must not be null.
+ * @param supplierCnpj Employer Identification Number (EIN) or equivalent tax ID. Must not be null.
  * @param active Indicates whether the supplier is currently active (optional).
  */
 public record RequestSuppliersDto(
         @NotBlank String supplierName,
-        @NotNull Integer supplierCpf,
+        @NotNull Long supplierCnpj,
         Boolean active
 ) {}

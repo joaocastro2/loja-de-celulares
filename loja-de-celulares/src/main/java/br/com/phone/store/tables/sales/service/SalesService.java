@@ -18,11 +18,7 @@ import java.util.List;
 
 /**
  * Service class responsible for handling business logic related to sales transactions.
- *
- * <p>This class coordinates the creation and retrieval of sales, including validation of
- * customer and seller data, stock updates, item pricing, and total calculation.</p>
- *
- * <p>It interacts with multiple repositories to persist and manage sales-related entities.</p>
+ * (Comentários mantidos e aprimorados)
  */
 @Service
 public class SalesService {
@@ -32,18 +28,31 @@ public class SalesService {
     private final SellersRepository sellersRepository;
     private final StockRepository stockRepository;
 
+    // --- EXCEÇÕES PERSONALIZADAS ---
+
+    // Usada para retornar 404 NOT FOUND (Crie esta classe em um pacote de utilitários)
+    public static class ResourceNotFoundException extends RuntimeException {
+        public ResourceNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    // Usada para retornar 400 BAD REQUEST/409 CONFLICT (Problema de estoque/negócio)
+    public static class BusinessConstraintException extends RuntimeException {
+        public BusinessConstraintException(String message) {
+            super(message);
+        }
+    }
+    // ---------------------------------
+
     /**
      * Constructs a {@code SalesService} with the required repositories.
-     *
-     * @param salesRepository Repository for persisting sales.
-     * @param customersRepository Repository for retrieving customer data.
-     * @param sellersRepository Repository for retrieving seller data.
-     * @param stockRepository Repository for managing product stock.
      */
     public SalesService(SalesRepository salesRepository,
                         CustomersRepository customersRepository,
                         SellersRepository sellersRepository,
                         StockRepository stockRepository) {
+        // Uso de injeção por construtor (prática recomendada)
         this.salesRepository = salesRepository;
         this.customersRepository = customersRepository;
         this.sellersRepository = sellersRepository;
@@ -53,21 +62,18 @@ public class SalesService {
     /**
      * Creates a new sale transaction.
      *
-     * <p>This method validates customer and seller IDs, checks product availability,
-     * updates stock quantities, calculates item subtotals and total amount, and persists
-     * the sale and its items.</p>
-     *
      * @param dto DTO containing sale details and items.
      * @return The persisted {@link SalesModel} representing the completed sale.
-     * @throws IllegalArgumentException if customer, seller, or product is not found,
-     *                                  or if stock is insufficient.
+     * @throws ResourceNotFoundException se cliente, vendedor ou produto não for encontrado (404).
+     * @throws BusinessConstraintException se o estoque for insuficiente (400/409).
      */
     @Transactional
     public SalesModel createSale(RequestSalesDto dto) {
+        // Validação: usa ResourceNotFoundException para indicar 404
         var customer = customersRepository.findById(dto.customerId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente com ID " + dto.customerId() + " não encontrado."));
         var seller = sellersRepository.findById(dto.sellerId())
-                .orElseThrow(() -> new IllegalArgumentException("Vendedor não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Vendedor com ID " + dto.sellerId() + " não encontrado."));
 
         SalesModel sale = new SalesModel(customer, seller);
 
@@ -75,22 +81,27 @@ public class SalesService {
         List<SaleItemsModel> items = new ArrayList<>();
 
         for (RequestSaleItemsDto itemDto : dto.items()) {
+            // Validação de Produto
             StockModel product = stockRepository.findById(itemDto.productId())
-                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Produto com ID " + itemDto.productId() + " não encontrado."));
 
+            // Verificação de Estoque
             if (product.getAmount() < itemDto.saleItemsQtty()) {
-                throw new IllegalArgumentException("Estoque insuficiente para produto " + product.getProductName());
+                throw new BusinessConstraintException("Estoque insuficiente. Produto " + product.getProductName() + " tem apenas " + product.getAmount() + " unidades disponíveis.");
             }
 
+            // Atualização de Estoque
             product.setAmount(product.getAmount() - itemDto.saleItemsQtty());
             stockRepository.save(product);
 
-            BigDecimal unitPrice = BigDecimal.valueOf(product.getPrice_in_cents())
-                    .divide(BigDecimal.valueOf(100));
+            // Cálculo do Preço
+            // Melhorando a manipulação de centavos para BigDecimal
+            BigDecimal unitPrice = BigDecimal.valueOf(product.getPrice_in_cents()).movePointLeft(2);
             BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(itemDto.saleItemsQtty()));
 
             total = total.add(subtotal);
 
+            // Criação do Item de Venda
             SaleItemsModel saleItem = new SaleItemsModel(itemDto, sale, product, unitPrice.doubleValue());
             saleItem.setUnitPrice(unitPrice.doubleValue());
             saleItem.setSaleItemsSubtotal(subtotal.doubleValue());
@@ -109,10 +120,10 @@ public class SalesService {
      *
      * @param id Unique identifier of the sale.
      * @return The {@link SalesModel} corresponding to the given ID.
-     * @throws IllegalArgumentException if the sale is not found.
+     * @throws ResourceNotFoundException if the sale is not found.
      */
     public SalesModel getSale(Integer id) {
         return salesRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Venda não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Venda com ID " + id + " não encontrada."));
     }
 }

@@ -28,7 +28,7 @@ public class SuppliersModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "suppliers_seq")
     @SequenceGenerator(name = "suppliers_seq", sequenceName = "suppliers_seq", allocationSize = 1)
     @Column(name = "supplier_id")
-    private UUID supplierId;
+    private Integer supplierId;
 
     /**
      * Name of the supplier.
@@ -41,8 +41,8 @@ public class SuppliersModel {
      * Supplier's Employer Identification Number (EIN) or equivalent tax ID.
      * Cannot be null.
      */
-    @Column(name = "supplier_cpf", nullable = false)
-    private Integer supplierCpf;
+    @Column(name = "supplier_cnpj", nullable = false)
+    private Long supplierCnpj;
 
     /**
      * Indicates whether the supplier is currently active.
@@ -57,7 +57,7 @@ public class SuppliersModel {
      */
     public SuppliersModel(RequestSuppliersDto dto) {
         this.supplierName = dto.supplierName();
-        this.supplierCpf = dto.supplierCpf();
+        this.supplierCnpj = dto.supplierCnpj();
         this.active = dto.active() != null ? dto.active() : true;
     }
 }
