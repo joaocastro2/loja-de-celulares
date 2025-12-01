@@ -19,7 +19,7 @@ const CadastrarFornecedor = () => {
     const { name, value } = e.target;
 
     // Limite de 9 dígitos para CNPJ
-    if (name === 'supplierEIN' && value.length > 9) return;
+    if (name === 'supplierCpf' && value.length > 11) return;
 
     setFormData({ ...formData, [name]: value });
   };
@@ -30,9 +30,9 @@ const CadastrarFornecedor = () => {
     setIsError(false);
     setLoading(true);
 
-    // Validação do CNPJ (9 dígitos)
-    if (formData.supplierEIN.length !== 9) {
-      setMessage('O CNPJ deve ter exatamente 9 dígitos.');
+    // Validação do CNPJ (11 dígitos)
+    if (formData.supplierCpf.length !== 11) {
+      setMessage('O CNPJ deve ter exatamente 11 dígitos.');
       setIsError(true);
       setLoading(false);
       return;
@@ -52,7 +52,7 @@ const CadastrarFornecedor = () => {
         `Fornecedor "${response.data.supplierName || formData.supplierName}" cadastrado com sucesso! ID: ${supplierId || 'não retornado'}`
       );
       setIsError(false);
-      setFormData({ supplierName: '', supplierEIN: '', active: true });
+      setFormData({ supplierName: '', supplierCpf: '', active: true });
     } catch (error) {
       console.error(error);
       setMessage('Erro ao cadastrar fornecedor. Verifique o console para detalhes.');
@@ -99,15 +99,15 @@ const CadastrarFornecedor = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            CNPJ (9 dígitos)
+            CNPJ (11 dígitos)
           </label>
           <input
             type="number"
-            name="supplierEIN"
-            value={formData.supplierEIN}
+            name="supplierCpf"
+            value={formData.supplierCpf}
             onChange={handleChange}
             required
-            placeholder="Ex: 123456789"
+            placeholder="Ex: 12345678910"
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-gray-400 focus:outline-none"
           />
         </div>

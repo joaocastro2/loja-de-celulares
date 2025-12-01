@@ -5,4 +5,4 @@ ALTER TABLE suppliers
 DROP COLUMN category;
 
 ALTER TABLE suppliers
-ADD COLUMN supplier_eiN CHAR(9) NOT NULL;
+ADD COLUMN supplier_cpf CHAR(11) NOT NULL;

@@ -110,8 +110,8 @@ const ListSupplier = () => {
                 <tr>
                   <TableHead text="ID" />
                   <TableHead text="Nome" />
-                  <TableHead text="EIN" />
-                  <TableHead text="Ativo" /> {/* nova coluna */}
+                  <TableHead text="CPF" />
+                  <TableHead text="Ativo" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
@@ -124,7 +124,7 @@ const ListSupplier = () => {
                       {supplier.supplierName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {supplier.supplierEIN}
+                      {supplier.supplierCpf}
                     </td>
                     <td className="px-6 py-4 text-sm">
                       {supplier.active ? (

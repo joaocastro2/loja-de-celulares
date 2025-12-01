@@ -41,8 +41,8 @@ public class SuppliersModel {
      * Supplier's Employer Identification Number (EIN) or equivalent tax ID.
      * Cannot be null.
      */
-    @Column(name = "supplier_ein", nullable = false)
-    private Long supplierEIN;
+    @Column(name = "supplier_cpf", nullable = false)
+    private Integer supplierCpf;
 
     /**
      * Indicates whether the supplier is currently active.
@@ -57,7 +57,7 @@ public class SuppliersModel {
      */
     public SuppliersModel(RequestSuppliersDto dto) {
         this.supplierName = dto.supplierName();
-        this.supplierEIN = dto.supplierEIN();
+        this.supplierCpf = dto.supplierCpf();
         this.active = dto.active() != null ? dto.active() : true;
     }
 }

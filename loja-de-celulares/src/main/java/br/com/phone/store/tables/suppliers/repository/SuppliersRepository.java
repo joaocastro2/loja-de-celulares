@@ -15,7 +15,7 @@ import java.util.UUID;
  * <p>Spring Data JPA automatically implements this interface, enabling
  * seamless interaction with the database without the need for boilerplate code.</p>
  */
-public interface SuppliersRepository extends JpaRepository<SuppliersModel, UUID> {
+public interface SuppliersRepository extends JpaRepository<SuppliersModel, Integer> {
 
     List<SuppliersModel> findAll();
 
