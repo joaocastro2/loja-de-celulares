@@ -13,14 +13,14 @@ import jakarta.validation.constraints.NotNull;
  * before processing.</p>
  *
  * @param customerName Full name of the customer. Must not be blank.
- * @param customerSsn Customer's identification number. Must not be null.
+ * @param customerCpf Customer's identification number. Must not be null.
  * @param customerEmail Customer's email address. Must not be blank.
  * @param customerPhone Customer's phone number. Must not be null.
  */
 public record RequestCustomersDto(
 
         @NotBlank String customerName,
-        @NotNull String customerSsn,
+        @NotNull String customerCpf,
         @NotBlank String customerEmail,
         @NotNull String customerPhone
 ) {}

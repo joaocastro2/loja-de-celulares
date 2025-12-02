@@ -46,8 +46,8 @@ public class CustomersModel {
      * Customer's identification number.
      * Cannot be null.
      */
-    @Column(name = "customer_ssn", nullable = false)
-    private String customerSsn;
+    @Column(name = "customer_cpf", nullable = false)
+    private String customerCpf;
 
     /**
      * Customer's email address.
@@ -77,7 +77,7 @@ public class CustomersModel {
      */
     public CustomersModel(RequestCustomersDto dto){
         this.customerName = dto.customerName();
-        this.customerSsn = dto.customerSsn();
+        this.customerCpf = dto.customerCpf();
         this.customerEmail = dto.customerEmail();
         this.customerPhone = dto.customerPhone();
     }

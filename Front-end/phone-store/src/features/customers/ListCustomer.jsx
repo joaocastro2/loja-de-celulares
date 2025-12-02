@@ -119,7 +119,7 @@ const ListCustomer = () => {
                   <TableHead text="ID" />
                   <TableHead text="Nome Completo" />
                   <TableHead text="Email" />
-                  <TableHead text="Documento (SSN)" />
+                  <TableHead text="Documento (CPF)" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
@@ -135,7 +135,7 @@ const ListCustomer = () => {
                       {customer.customerEmail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {customer.customerSsn}
+                      {customer.customerCpf}
                     </td>
                   </tr>
                 ))}

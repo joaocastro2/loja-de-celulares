@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080/customers';
 const CadastrarClientes = () => {
   const [formData, setFormData] = useState({
     nome: '',
-    ssn: '',
+    cpf: '',
     email: '',
     telefone: '',
   });
@@ -18,7 +18,7 @@ const CadastrarClientes = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'ssn' && value.length > 9) return;
+    if (name === 'cpf' && value.length > 11) return;
     if (name === 'telefone' && value.length > 10) return;
     setFormData({ ...formData, [name]: value });
   };
@@ -29,8 +29,8 @@ const CadastrarClientes = () => {
     setIsError(false);
     setLoading(true);
 
-    if (formData.ssn.length !== 9) {
-      setMessage('O SSN deve ter exatamente 9 dígitos.');
+    if (formData.cpf.length !== 11) {
+      setMessage('O CPF deve ter exatamente 9 dígitos.');
       setIsError(true);
       setLoading(false);
       return;
@@ -45,7 +45,7 @@ const CadastrarClientes = () => {
     try {
       const payload = {
         customerName: formData.nome,
-        customerSsn: formData.ssn,
+        customerCpf: formData.cpf,
         customerEmail: formData.email,
         customerPhone: formData.telefone,
       };
@@ -62,7 +62,7 @@ const CadastrarClientes = () => {
         `Cliente "${response.data.customerName || payload.customerName}" cadastrado com sucesso! ID: ${response.data.customerId || 'não retornado'}`
       );
       setIsError(false);
-      setFormData({ nome: '', ssn: '', email: '', telefone: '' });
+      setFormData({ nome: '', cpf: '', email: '', telefone: '' });
     } catch (error) {
       console.error(error);
       setMessage('Erro ao cadastrar cliente. Verifique o console para detalhes.');
@@ -100,9 +100,9 @@ const CadastrarClientes = () => {
         />
         <input
           type="text"
-          name="ssn"
-          placeholder="SSN (9 dígitos)"
-          value={formData.ssn}
+          name="cpf"
+          placeholder="CPF (11 dígitos)"
+          value={formData.cpf}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
