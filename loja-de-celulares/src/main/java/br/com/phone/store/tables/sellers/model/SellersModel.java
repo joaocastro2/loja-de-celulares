@@ -47,8 +47,8 @@ public class SellersModel {
      * Seller's identification number (e.g., CPF).
      * Cannot be null.
      */
-    @Column(name = "seller_ssn", nullable = false)
-    private String sellerSsn;
+    @Column(name = "seller_cpf", nullable = false)
+    private String sellerCpf;
 
     /**
      * Seller's email address.
@@ -84,7 +84,7 @@ public class SellersModel {
      */
     public SellersModel(RequestSellersDto dto){
         this.sellerName = dto.sellerName();
-        this.sellerSsn = dto.sellerSsn();
+        this.sellerCpf = dto.sellerCpf();
         this.sellerEmail = dto.sellerEmail();
         this.sellerComRate = dto.sellerComRate() != null ? dto.sellerComRate() : 0.04;
         this.active = dto.active() != null ? dto.active() : true;

@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
  * <p>Validation annotations ensure that required fields are properly filled before processing.</p>
  *
  * @param sellerName Full name of the seller. Must not be blank.
- * @param sellerSsn Seller's identification number (e.g., CPF). Must not be null.
+ * @param sellerCpf Seller's identification number (e.g., CPF). Must not be null.
  * @param sellerEmail Seller's email address. Must not be blank.
  * @param sellerComRate Seller's commission rate (optional).
  * @param active Indicates whether the seller is currently active (optional).
@@ -20,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 public record RequestSellersDto(
 
         @NotBlank String sellerName,
-        @NotNull String sellerSsn,
+        @NotNull String sellerCpf,
         @NotBlank String sellerEmail,
         Double sellerComRate,
         Boolean active

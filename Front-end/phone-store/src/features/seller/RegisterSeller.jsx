@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080/sellers';
 const CadastrarVendedores = () => {
   const [formData, setFormData] = useState({
     nome: '',
-    ssn: '',
+    cpf: '',
     email: '',
     comissao: '',
     ativo: true,
@@ -19,7 +19,7 @@ const CadastrarVendedores = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'ssn' && value.length > 9) return;
+    if (name === 'cpf' && value.length > 11) return;
     setFormData({ ...formData, [name]: value });
   };
 
@@ -29,8 +29,8 @@ const CadastrarVendedores = () => {
     setIsError(false);
     setLoading(true);
 
-    if (formData.ssn.length !== 9) {
-      setMessage('O SSN deve ter exatamente 9 dígitos.');
+    if (formData.cpf.length !== 11) {
+      setMessage('O CPF deve ter exatamente 11 dígitos.');
       setIsError(true);
       setLoading(false);
       return;
@@ -39,7 +39,7 @@ const CadastrarVendedores = () => {
     try {
       const payload = {
         sellerName: formData.nome,
-        sellerSsn: formData.ssn,
+        sellerCpf: formData.cpf,
         sellerEmail: formData.email,
         sellerComRate: formData.comissao ? parseFloat(formData.comissao) : 0.04,
         active: formData.ativo,
@@ -57,7 +57,7 @@ const CadastrarVendedores = () => {
         `Vendedor "${response.data.sellerName || payload.sellerName}" cadastrado com sucesso! ID: ${response.data.sellerId || 'não retornado'}`
       );
       setIsError(false);
-      setFormData({ nome: '', ssn: '', email: '', comissao: '', ativo: true });
+      setFormData({ nome: '', cpf: '', email: '', comissao: '', ativo: true });
     } catch (error) {
       console.error(error);
       setMessage('Erro ao cadastrar vendedor. Verifique o console para detalhes.');
@@ -98,9 +98,9 @@ const CadastrarVendedores = () => {
         />
         <input
           type="text"
-          name="ssn"
-          placeholder="SSN (9 dígitos)"
-          value={formData.ssn}
+          name="cpf"
+          placeholder="CPF (11 dígitos)"
+          value={formData.cpf}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           required
